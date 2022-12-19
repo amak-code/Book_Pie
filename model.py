@@ -13,6 +13,7 @@ class Book(db.Model):
     author = db.Column(db.String)
     published_date = db.Column(db.DateTime)
     description = db.Column(db.String)
+    poster_path = db.Column(db.String)
     
 
     reviews = db.relationship("Review", back_populates="book")
