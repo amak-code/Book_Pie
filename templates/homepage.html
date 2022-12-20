@@ -7,17 +7,16 @@
   <h2>Thinking what to read next?</h2>
 
   <div id="book-list" class="row">
-    {% for book in book_list %}
-        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 melon-summary mt-3">
+    {% for book in books %}
+        <div class="">
 
-            <div class="card text-center bg-light">
-              <!-- <a href="/melon/{{ melon.melon_id }}"> -->
-                  <img class="card-img-top img-circle" src="{{ book.image_url }}">
-              </a>
-              <div class="card-body">
-                  <h5 class="card-title"><a href="/melon/{{ melon.melon_id }}">{{ book.title }}</a></h5>
-                  <div class="price card-text">{{ book.author }}</div>
-                  <a class="btn btn-primary" href="/melon/{{ melon.melon_id }}">Details</a>
+            <div class="t">
+              <div class="">
+                  <h5 class="">{{ book.volumeInfo.title }}</h5>
+                  <div class="">{{ ', '.join(book.volumeInfo.authors) }}</div>
+
+
+                  
               </div>
             </div>
         </div>
