@@ -2,27 +2,50 @@
 {% block title %}Book Pie{% endblock %}
 
 {% block body %}
-  <h1>Welcome!</h1>
+<h1>Welcome!</h1>
 
-  <h2>Thinking what to read next?</h2>
+<h2>Thinking what to read next?</h2>
 
-  <div id="book-list" class="row">
-    {% for book in books %}
-        <div class="">
+<!-- list of books to present to the user -->
+<div id="book-list" class="row">
+  {% for book in books %}
+  <div class="">
+    
+    <div class="t">
+      <div class="">
+        <img src="{{book.volumeInfo.imageLinks.smallThumbnail}}">
+        <h3 class="">{{ book.volumeInfo.title }}</h3>
+        <div class="">{{ ', '.join(book.volumeInfo.authors) }}</div>
+        <br/>
 
-            <div class="t">
-              <div class="">
-                  <h5 class="">{{ book.volumeInfo.title }}</h5>
-                  <div class="">{{ ', '.join(book.volumeInfo.authors) }}</div>
-
-
-                  
-              </div>
-            </div>
-        </div>
-    {% endfor %}
+      </div>
+    </div>
   </div>
+  {% endfor %}
+</div>
+
+<!-- user authentication -->
+<div class="auth-class">
   
+  <h2>Log In</h2>
+  <form action="/login" method="POST">
+    <p>
+      Email <input type="text" name="email">
+    </p>
+    
+    <p>
+      Password <input type="password" name="password">
+    </p>
+    
+    <p>
+      <input type="submit">
+    </p>
+    
+  </form>
+  <h4>Don't have an account?</h4>>
+  <a href="/register">Create an account</a>>
+</div>>
+
 
 
 {% endblock %}
