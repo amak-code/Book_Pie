@@ -9,6 +9,7 @@ class Book(db.Model):
     __tablename__ = "books"
 
     book_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    google_book_id = db.Column(db.Integer, unique=True, nullable=False)
     title = db.Column(db.String)
     author = db.Column(db.String)
     published_date = db.Column(db.DateTime)

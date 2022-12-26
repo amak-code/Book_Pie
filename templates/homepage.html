@@ -3,23 +3,30 @@
 
 {% block body %}
 <h1>Welcome!</h1>
-
+<div class="search">
+  <h2>Search and browse book reviews</h2>
+  <form action="/search">
+    <input type="text"
+        placeholder="Title"
+        name="title">
+    <input type="text"
+        placeholder="Author"
+        name="author">
+    <p>
+      <input type="submit" value="Find books" class="btn btn-primary">
+    </p>
+</form>
+</div>
 <h2>Thinking what to read next?</h2>
 
 <!-- list of books to present to the user -->
 <div id="book-list" class="row">
   {% for book in books %}
-  <div class="">
-    
-    <div class="t">
-      <div class="">
+      <div class="book-info">
         <img src="{{book.volumeInfo.imageLinks.smallThumbnail}}">
         <h3 class="">{{ book.volumeInfo.title }}</h3>
         <div class="">{{ ', '.join(book.volumeInfo.authors) }}</div>
         <br/>
-
-      </div>
-    </div>
   </div>
   {% endfor %}
 </div>

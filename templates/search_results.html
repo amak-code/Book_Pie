@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}Book Search Results{% endblock %}
+
+{% block body %}
+<div id="book-search-list" class="row">
+    {% for book in books %}
+        <div class="book-detailes">
+          <img src="{{book.volumeInfo.imageLinks.get('smallThumbnail', '/static/no-image-available.jpg')}}">
+          <h3 class="">{{ book.volumeInfo.title }}</h3>
+          <div class="">{{ ', '.join(book.volumeInfo.get('authors', ['***'])) }}</div>
+          <br/>
+    </div>
+    {% endfor %}
+  </div>
+
+{% endblock %}
