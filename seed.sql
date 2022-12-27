@@ -61,10 +61,12 @@ ALTER SEQUENCE public.bookgenres_bookgenre_id_seq OWNED BY public.bookgenres.boo
 
 CREATE TABLE public.books (
     book_id integer NOT NULL,
+    google_book_id character varying NOT NULL,
     title character varying,
-    author character varying,
+    authors character varying,
     published_date timestamp without time zone,
-    description character varying
+    description character varying,
+    poster_path character varying
 );
 
 
@@ -291,7 +293,10 @@ COPY public.bookgenres (bookgenre_id, book_id, genre_id) FROM stdin;
 -- Data for Name: books; Type: TABLE DATA; Schema: public; Owner: antikiller
 --
 
-COPY public.books (book_id, title, author, published_date, description) FROM stdin;
+COPY public.books (book_id, google_book_id, title, authors, published_date, description, poster_path) FROM stdin;
+1	KUNAEAAAQBAJ	Small Town Pride	{"Phil Stamper"}	2022-05-31 00:00:00	Bla-blah-blah	http://books.google.com/books/content?id=KUNAEAAAQBAJ&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api
+2	5CDuO_6LYpgC	Struggling with Iowa's Pride	{"Wilson J. Warren"}	2000-05-21 00:00:00	Pride Pride-Pride	http://books.google.com/books/content?id=5CDuO_6LYpgC&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api
+3	_S5dgR5kPAAC	The Pride of the Confederate Artillery	{"Nathaniel Cheairs Hughes"}	2001-05-10 00:00:00	Bla-blah-blahBla-blah-blahBla-blah-blah	http://books.google.com/books/content?id=_S5dgR5kPAAC&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api
 \.
 
 
@@ -324,8 +329,6 @@ COPY public.reviews (review_id, rating, text_review, created_date, book_id, user
 --
 
 COPY public.users (user_id, email, password, nickname, user_picture, zipcode) FROM stdin;
-1	test@test.test	test	\N	\N	\N
-4	test2@test.test	test	\N	\N	\N
 \.
 
 
@@ -340,7 +343,7 @@ SELECT pg_catalog.setval('public.bookgenres_bookgenre_id_seq', 1, false);
 -- Name: books_book_id_seq; Type: SEQUENCE SET; Schema: public; Owner: antikiller
 --
 
-SELECT pg_catalog.setval('public.books_book_id_seq', 1, false);
+SELECT pg_catalog.setval('public.books_book_id_seq', 3, true);
 
 
 --
@@ -368,7 +371,7 @@ SELECT pg_catalog.setval('public.reviews_review_id_seq', 1, false);
 -- Name: users_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: antikiller
 --
 
-SELECT pg_catalog.setval('public.users_user_id_seq', 4, true);
+SELECT pg_catalog.setval('public.users_user_id_seq', 1, false);
 
 
 --
@@ -377,6 +380,14 @@ SELECT pg_catalog.setval('public.users_user_id_seq', 4, true);
 
 ALTER TABLE ONLY public.bookgenres
     ADD CONSTRAINT bookgenres_pkey PRIMARY KEY (bookgenre_id);
+
+
+--
+-- Name: books books_google_book_id_key; Type: CONSTRAINT; Schema: public; Owner: antikiller
+--
+
+ALTER TABLE ONLY public.books
+    ADD CONSTRAINT books_google_book_id_key UNIQUE (google_book_id);
 
 
 --

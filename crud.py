@@ -35,12 +35,13 @@ def get_user_by_email(email):
 
 
 
-def create_book(title, author, published_date, description, poster_path):
+def create_book(google_book_id, title, authors, published_date, description, poster_path):
     """Create and return a new movie."""
 
     book = Book(
+        google_book_id = google_book_id,
         title=title,
-        author = author,
+        authors = authors,
         published_date = published_date,
         description = description,
         poster_path=poster_path)

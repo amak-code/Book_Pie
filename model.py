@@ -9,9 +9,9 @@ class Book(db.Model):
     __tablename__ = "books"
 
     book_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    google_book_id = db.Column(db.Integer, unique=True, nullable=False)
+    google_book_id = db.Column(db.String, unique=True, nullable=False)
     title = db.Column(db.String)
-    author = db.Column(db.String)
+    authors = db.Column(db.String)
     published_date = db.Column(db.DateTime)
     description = db.Column(db.String)
     poster_path = db.Column(db.String)
@@ -35,9 +35,9 @@ class User(db.Model):
     user_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     email = db.Column(db.String, unique=True, nullable=False)
     password = db.Column(db.String, nullable=False)
-    nickname = db.Column(db.String)
-    user_picture = db.Column(db.String)
-    zipcode = db.Column(db.Integer)
+    nickname = db.Column(db.String, nullable=True)
+    user_picture = db.Column(db.String, nullable=True)
+    zipcode = db.Column(db.Integer, nullable=True)
 
     reviews = db.relationship("Review", back_populates="user")
     books_to_read = db.relationship("BookToRead", back_populates = "user")

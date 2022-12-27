@@ -54,8 +54,8 @@ def find_books():
     data = res.json()
     
     results = data['items']
-    # for result in results:
-    #     del result['volumeInfo']['imageLinks']['smallThumbnail']
+    for result in results:
+        del result['volumeInfo']['imageLinks']['smallThumbnail']
     return render_template('search_results.html', books = results)
 
 @app.route("/register")
