@@ -4,11 +4,12 @@
 {% block body %}
 <div id="book-search-list" class="row">
     {% for book in books %}
-        <div class="book-detailes">
+        <div class="book-details">
           <img src="{{book.volumeInfo.imageLinks.get('smallThumbnail', '/static/no-image-available.jpg')}}"
             width="150" 
             height="200">
-          <h3 class="">{{ book.volumeInfo.title }}</h3>
+            <a href="/search/{{book.id}}">
+              {{ book.volumeInfo.title }}</a>
           <div class="">{{ ', '.join(book.volumeInfo.get('authors', ['***'])) }}</div>
           <br/>
     </div>

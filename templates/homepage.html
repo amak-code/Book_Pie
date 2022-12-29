@@ -23,9 +23,9 @@
 <div id="book-list" class="row">
   {% for book in books %}
       <div class="book-info">
-        <img src="{{book.volumeInfo.imageLinks.smallThumbnail}}">
+        <img src="{{book.volumeInfo.imageLinks.get('smallThumbnail', '/static/no-image-available.jpg')}}">
         <h3 class="">{{ book.volumeInfo.title }}</h3>
-        <div class="">{{ ', '.join(book.volumeInfo.authors) }}</div>
+        <div class="">{{', '.join(book.volumeInfo.get('authors', ['***']))}}</div>
         <br/>
   </div>
   {% endfor %}

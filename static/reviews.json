@@ -1,0 +1,21 @@
+[
+    {
+        "text_review": "The book is amazing!!!",
+        "created_date": "2002-05-10",
+        "book_id": "1",
+        "user_id": "1"
+    },
+    {
+        "text_review": "This book is awful!!!",
+        "created_date": "2001-07-15",
+        "book_id": "1",
+        "user_id": "2"
+    },
+    {
+        "text_review": "I like this book!!!",
+        "created_date": "2010-09-10",
+        "book_id": "2",
+        "user_id": "3"
+    }
+
+]

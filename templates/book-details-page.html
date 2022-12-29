@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block title %}Book Detailes Page{% endblock %}
+
+{% block body %}
+<div id="" class="">
+    <img src="{{book.volumeInfo.imageLinks.get('thumbnail', '/static/no-image-available.jpg')}}">
+    <h3 class="">Title: {{ book.volumeInfo.title }}</h3>
+    <div class="">Authors: {{', '.join(book.volumeInfo.get('authors', ['***']))}}</div>
+    <div>{{book.volumeInfo.description|striptags}}</div>
+   <!-- SHowing rating and reviews if book exists in db -->
+    <div class="">Rating: {{db_book.rating if db_book is not none else '0'}}</div>
+    {% if db_book is not none %}
+        <div class="">Reviews: 
+            {% for review in db_book.reviews %}
+            <ul>
+                <li>
+                    {{review.text_review}}
+                </li>
+
+            </ul>
+            
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% if session["user_email"] %}
+    <form action="/review">
+        <textarea id="book_review" name="review" rows="4" cols="50">Please enter your review of book "{{ book.volumeInfo.title }}" here.</textarea>
+        <br>
+        <input type="submit" value="Submit">
+      </form>
+    {% endif %}
+</div>
+
+{% endblock %}

@@ -7,7 +7,8 @@
     ],
     "published_date": "2022-05-31",
     "description": "Bla-blah-blah",
-    "poster_path": "http://books.google.com/books/content?id=KUNAEAAAQBAJ&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api"
+    "poster_path": "http://books.google.com/books/content?id=KUNAEAAAQBAJ&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+    "rating": 5
     },
 
     {
@@ -17,7 +18,8 @@
           "Wilson J. Warren"],
         "published_date": "2000-05-21",
         "description": "Pride Pride-Pride",
-        "poster_path": "http://books.google.com/books/content?id=5CDuO_6LYpgC&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api"
+        "poster_path": "http://books.google.com/books/content?id=5CDuO_6LYpgC&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+        "rating": 4
     },
 
     {
@@ -28,6 +30,7 @@
         ],
         "published_date": "2001-05-10",
         "description": "Bla-blah-blahBla-blah-blahBla-blah-blah",
-        "poster_path": "http://books.google.com/books/content?id=_S5dgR5kPAAC&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api"
+        "poster_path": "http://books.google.com/books/content?id=_S5dgR5kPAAC&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+        "rating": 3
     }
 ]

@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block title %}User's Page{% endblock %}
+
+{% block body %}
+<h2>Welcome </h2>
+
+<div class="search">
+    <h2>Do you want to review a book?</h2>
+    <form action="/search">
+      <input type="text"
+          placeholder="Title"
+          name="title">
+      <input type="text"
+          placeholder="Author"
+          name="author">
+      <p>
+        <input type="submit" value="Find books" class="btn btn-primary">
+      </p>
+  </form>
+  </div>
+<div>
+    {% if reviews is defined and reviews %}
+    <p>The books that you previously reviewed:</p>
+    
+        <div class="">Reviews: 
+            {% for review in reviews %}
+           
+            <ul>
+                <li type="1">
+                    <img src="{{review.book.poster_path}}" >
+                    <br>
+                    Title: {{review.book.title|title}}
+                    <br>
+                    Authors: {{review.book.authors if review.book.authors else '* * *'}}
+                    <br>
+                    Your review: "{{review.text_review}}"
+                </li>
+
+            </ul>
+            
+            {% endfor %}
+        </div>
+    {% endif %}
+    
+</div>
+
+{% endblock %}
+
+
+
+<!-- if user just login first time after registration -->
+<!-- if user doesn't have any reviews yet -->

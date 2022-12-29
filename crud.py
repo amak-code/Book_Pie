@@ -35,16 +35,18 @@ def get_user_by_email(email):
 
 
 
-def create_book(google_book_id, title, authors, published_date, description, poster_path):
+def create_book(google_book_id, title, authors, published_date, description, poster_path, rating):
     """Create and return a new movie."""
 
     book = Book(
         google_book_id = google_book_id,
         title=title,
-        authors = authors,
+        authors = ", ".join(authors) if authors is not None else "",
         published_date = published_date,
         description = description,
-        poster_path=poster_path)
+        poster_path=poster_path,
+        rating = rating
+        )
 
     return book
 
@@ -60,6 +62,11 @@ def get_book_by_id(book_id):
 
     return Book.query.get(book_id)
 
+def get_book_by_google_id(google_book_id):
+    """Return a book by google_book_id."""
+
+    return Book.query.filter(Book.google_book_id == google_book_id).first()
+
 def get_book_by_title(title):
 
     return Book.query.filter(Book.title == title).all()
@@ -70,10 +77,10 @@ def get_book_by_author(author):
 
 
 
-def create_review(rating, text_review, created_date, book_id, user_id):
+def create_review(text_review, created_date, book_id, user_id):
     """Create and return a new review."""
 
-    review = Review(rating = rating, 
+    review = Review( 
         text_review = text_review,
         created_date = created_date,
         book_id = book_id,
@@ -81,12 +88,26 @@ def create_review(rating, text_review, created_date, book_id, user_id):
 
     return review
 
+def get_user_reviews(user_id):
 
-def update_rating(rating_id, new_score):
+    return Review.query.filter(Review.user_id == user_id).all()
+
+
+
+def get_rating_by_google_id(google_book_id):
     """ Update a rating given rating_id and the updated score. """
-    score = Review.query.get(rating_id)
-    score.rating = (score.rating + new_score)/2
+    book = Book.query.filter(Book.google_book_id == google_book_id).first()
 
+    return book.rating
+    
+
+def update_avg_rating(google_book_id, new_score):
+    """Count average rating per book"""
+    book = Book.query.get(google_book_id)
+    if book.rating == None:
+        book.rating = new_score
+    else:
+        book.rating = (book.rating + new_score)/2
 
 def create_bookgenre(book_id, genre_id):
 
