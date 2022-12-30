@@ -35,15 +35,14 @@ def get_user_by_email(email):
 
 
 
-def create_book(google_book_id, title, authors, published_date, description, poster_path, rating):
+def create_book(google_book_id, title, authors, poster_path, rating):
     """Create and return a new movie."""
 
     book = Book(
         google_book_id = google_book_id,
         title=title,
         authors = ", ".join(authors) if authors is not None else "",
-        published_date = published_date,
-        description = description,
+        # authors = authors,
         poster_path=poster_path,
         rating = rating
         )
@@ -77,13 +76,12 @@ def get_book_by_author(author):
 
 
 
-def create_review(text_review, created_date, book_id, user_id):
+def create_review(text_review, google_book_id, user_id):
     """Create and return a new review."""
 
     review = Review( 
         text_review = text_review,
-        created_date = created_date,
-        book_id = book_id,
+        google_book_id = google_book_id,
         user_id = user_id)
 
     return review

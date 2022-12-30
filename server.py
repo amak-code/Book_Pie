@@ -36,30 +36,45 @@ def homepage():
 
 
 # Search and show results and details methods
-@app.route("/search")
+@app.route("/search", methods=["POST"])
 def find_books():
     """Search for the books using title and/or author"""
 
-    title = request.args.get('title', '')
-    author = request.args.get('author', '')
+    title = request.form.get('title', '')
+    author = request.form.get('author', '')
+
+    # If user didn't type anything
+    if title == '' and author == '':
+        flash("Please type book's title or author!")
+        return redirect("/search")
 
     url = "https://www.googleapis.com/books/v1/volumes"
 
-    payload = {'q': f"intitle:\"{title}\" inauthor:\"{author}\""}    
+    search_terms = []
+    if title:
+        search_terms.append(f"intitle:\"{title}\"")
+    if author:
+        search_terms.append(f"inauthor:\"{author}\"")
+        
+    payload = {'q': ' '.join(search_terms)}
+   
 
     res = requests.get(url, params=payload)
     print("//////////////////////////////////////////////")
     print("BOOOKKKK SEARCHHHHH")
     print(res.url)
-    print("PAYLOAD FOR SEARCH RESULATS")
+    print("PAYLOAD FOR SEARCH RESULTS")
     print(payload)
     print("//////////////////////////////////////////////")
     data = res.json()
-    
-    results = data['items']
-    # for result in results:
-    #     del result['volumeInfo']['imageLinks']['smallThumbnail']
-    return render_template('search_results.html', books = results)
+    if not 'items' in data:
+        flash("Sorry! We couldn't find anything.")
+        return redirect("/search")
+    else:
+        results = data['items']
+        return render_template('search_results.html', books = results)
+
+
 
 
 @app.route("/search/<google_book_id>")
@@ -74,15 +89,12 @@ def show_book(google_book_id):
     url = f"https://www.googleapis.com/books/v1/volumes/{google_book_id}"
     res = requests.get(url)
     print("//////////////////////////////////////////////")
-    print("BOOOKKKK SEARCHHHHH")
+    print("BOOOKKKK RESULT")
     print(res.url)
-    print("PAYLOAD FOR SEARCH RESULATS")
     print("//////////////////////////////////////////////")
     data = res.json()
         
-        # result = data['items']
-        # for result in results:
-        #     del result['volumeInfo']['imageLinks']['smallThumbnail']
+     
     
     return render_template("book-details-page.html", book = data, db_book=db_book)
    
@@ -121,33 +133,63 @@ def process_login():
     password = request.form.get("password")
 
     user = crud.get_user_by_email(email)
+    
+
     if not user or user.password != password:
         flash("The email or password you entered was incorrect.")
         return redirect('/')
 
     else:
         # Log in user by storing the user's email in session
-        session["user_email"] = user.email
+        session["user_id"] = user.user_id
         return redirect("/user")
         
 
 @app.route("/user")
 def user_page():
-    user = crud.get_user_by_email(session["user_email"])
-    if user.reviews: 
-        reviews = user.reviews
-        print('/////////////////////////////')
-        print('USER REVIEWS')
-        print(f"SEE HERE:{user.reviews}")
-        flash(f"Welcome back, {user.email}!")
-        return render_template("user_page.html", user=user, reviews = reviews)
-    else:
-        print('/////////////////////////////')
-        print('USER REVIEWS')
-        print(f"SEE HERE:{user.reviews}")
-        flash(f"Welcome back, {user.email}!")
+    if session["user_id"]:
+        user = crud.get_user_by_id(session["user_id"])
+        if user.reviews: 
+            reviews = user.reviews
+            print('/////////////////////////////')
+            print('USER REVIEWS')
+            print(f"SEE HERE:{user.reviews}")
+            print('/////////////////////////////')
+            print('USER REVIEWS AUTHORS')
+            for review in reviews:
+                print(f"SEE HERE:{review.book.authors}")
+            flash(f"Welcome back, {user.email}!")
+            return render_template("user_page.html", user=user, reviews = reviews)
+        else:
+           
+            flash(f"Welcome back, {user.email}!")
+            return render_template("user_page.html", user=user)
 
-        return render_template("user_page.html", user=user)
+@app.route("/review", methods=["POST"])
+def review_book():
+    """Reviewing book and also getting a google_book_id to store this book in db"""
+    user_review = request.form.get('review', '')
+    google_book_id = request.form.get('googleBookId', '')
+    user = crud.get_user_by_id(session["user_id"])
+    review = crud.create_review(user_review, google_book_id, user.user_id)
+
+    """Fetching data from google book API using patricular id"""
+
+    url = f"https://www.googleapis.com/books/v1/volumes/{google_book_id}"
+    res = requests.get(url)
+    data = res.json()
+    print('/////////////////////////////')
+    print('PRINT AUTHORS')
+    print(data['volumeInfo']['authors'])
+    book = crud.create_book(google_book_id, data['volumeInfo']['title'] , data['volumeInfo']['authors'], data['volumeInfo']['imageLinks']['thumbnail'], rating=0)
+    db.session.add(book)
+    db.session.commit()
+    db.session.add(review)
+    db.session.commit()
+    
+    flash(f"You successfully added a review! ")
+    
+    return redirect("/user")
 
 
 if __name__ == '__main__':

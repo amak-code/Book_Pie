@@ -12,8 +12,6 @@ class Book(db.Model):
     google_book_id = db.Column(db.String, unique=True, nullable=False)
     title = db.Column(db.String)
     authors = db.Column(db.String)
-    published_date = db.Column(db.DateTime)
-    description = db.Column(db.String)
     poster_path = db.Column(db.String)
     rating = db.Column(db.Integer)
     
@@ -55,8 +53,9 @@ class Review(db.Model):
     review_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     # rating = db.Column(db.Integer)
     text_review = db.Column(db.String)
-    created_date = db.Column(db.DateTime)
-    book_id = db.Column(db.Integer, db.ForeignKey("books.book_id"))
+    created_date = db.Column(db.DateTime(timezone=True), server_default=db.func.now())
+    # book_id = db.Column(db.Integer, db.ForeignKey("books.book_id"))
+    google_book_id = db.Column(db.String, db.ForeignKey("books.google_book_id"))
     user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"))
 
     book = db.relationship("Book", back_populates="reviews")

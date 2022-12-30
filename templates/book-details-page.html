@@ -3,10 +3,24 @@
 
 {% block body %}
 <div id="" class="">
-    <img src="{{book.volumeInfo.imageLinks.get('thumbnail', '/static/no-image-available.jpg')}}">
-    <h3 class="">Title: {{ book.volumeInfo.title }}</h3>
-    <div class="">Authors: {{', '.join(book.volumeInfo.get('authors', ['***']))}}</div>
-    <div>{{book.volumeInfo.description|striptags}}</div>
+    {% if 'imageLinks' in book.volumeInfo %}
+          <img src="{{book.volumeInfo.imageLinks.get('smallThumbnail', '/static/no-image-available.jpg')}}"
+            width="150" 
+            height="200">
+    {% else %}
+          <img src="{{'/static/no-image-available.jpg'}}"
+          width="150" 
+          height="200">
+    {% endif %}
+        <h3 class="">Title: {{ book.volumeInfo.title }}</h3>
+        <div class="">Authors: {{', '.join(book.volumeInfo.get('authors', ['***']))}}</div>
+        <div>Description:
+            {% if 'description' in book.volumeInfo %}
+                {{book.volumeInfo.description|striptags}}
+            {% else %}
+                No description so far.
+            {% endif %}
+        </div>
    <!-- SHowing rating and reviews if book exists in db -->
     <div class="">Rating: {{db_book.rating if db_book is not none else '0'}}</div>
     {% if db_book is not none %}
@@ -22,12 +36,13 @@
             {% endfor %}
         </div>
     {% endif %}
-    {% if session["user_email"] %}
-    <form action="/review">
-        <textarea id="book_review" name="review" rows="4" cols="50">Please enter your review of book "{{ book.volumeInfo.title }}" here.</textarea>
+    {% if session["user_id"] %}
+    <form action="/review" method="POST">
+        <textarea id="book_review" name="review" rows="4" cols="50" placeholder='Please enter your review of book "{{ book.volumeInfo.title }}" here.'></textarea>
         <br>
         <input type="submit" value="Submit">
-      </form>
+        <input type="hidden" id="googleBookId" name="googleBookId" value="{{book.id}}" />
+    </form>
     {% endif %}
 </div>
 

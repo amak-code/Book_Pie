@@ -31,7 +31,12 @@
                     <br>
                     Title: {{review.book.title|title}}
                     <br>
-                    Authors: {{review.book.authors if review.book.authors else '* * *'}}
+                    {% if 'authors' in review.book %}
+                        Authors: 
+                        {{review.book.authors }}
+        
+                    
+                    {% endif %}
                     <br>
                     Your review: "{{review.text_review}}"
                 </li>

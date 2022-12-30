@@ -5,8 +5,6 @@
     "authors": [
         "Phil Stamper"
     ],
-    "published_date": "2022-05-31",
-    "description": "Bla-blah-blah",
     "poster_path": "http://books.google.com/books/content?id=KUNAEAAAQBAJ&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
     "rating": 5
     },
@@ -16,8 +14,6 @@
         "title": "Struggling with Iowa's Pride",
         "authors": [
           "Wilson J. Warren"],
-        "published_date": "2000-05-21",
-        "description": "Pride Pride-Pride",
         "poster_path": "http://books.google.com/books/content?id=5CDuO_6LYpgC&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
         "rating": 4
     },
@@ -28,8 +24,6 @@
         "authors": [
           "Nathaniel Cheairs Hughes"
         ],
-        "published_date": "2001-05-10",
-        "description": "Bla-blah-blahBla-blah-blahBla-blah-blah",
         "poster_path": "http://books.google.com/books/content?id=_S5dgR5kPAAC&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
         "rating": 3
     }
