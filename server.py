@@ -46,7 +46,7 @@ def find_books():
     # If user didn't type anything
     if title == '' and author == '':
         flash("Please type book's title or author!")
-        return redirect("/search")
+        return redirect("/")
 
     url = "https://www.googleapis.com/books/v1/volumes"
 
@@ -93,9 +93,7 @@ def show_book(google_book_id):
     print(res.url)
     print("//////////////////////////////////////////////")
     data = res.json()
-        
-     
-    
+  
     return render_template("book-details-page.html", book = data, db_book=db_book)
    
 
@@ -144,6 +142,16 @@ def process_login():
         session["user_id"] = user.user_id
         return redirect("/user")
         
+
+@app.route('/logout') 
+def log_out():
+    """Allow a user to log out."""
+    session.clear()
+    
+    return redirect('/')
+
+
+# methods for showing reviews on user's page and reviewng the book 
 
 @app.route("/user")
 def user_page():

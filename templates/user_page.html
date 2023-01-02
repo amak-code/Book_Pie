@@ -2,9 +2,8 @@
 {% block title %}User's Page{% endblock %}
 
 {% block body %}
-<h2>Welcome </h2>
 
-<div class="search">
+<!-- <div class="search">
     <h2>Do you want to review a book?</h2>
     <form action="/search">
       <input type="text"
@@ -18,7 +17,7 @@
       </p>
   </form>
   </div>
-<div>
+<div> -->
     {% if reviews is defined and reviews %}
     <p>The books that you previously reviewed:</p>
     
@@ -31,12 +30,10 @@
                     <br>
                     Title: {{review.book.title|title}}
                     <br>
-                    {% if 'authors' in review.book %}
+                    <!-- we need to check if authors are in the db for that book -->
                         Authors: 
                         {{review.book.authors }}
-        
-                    
-                    {% endif %}
+
                     <br>
                     Your review: "{{review.text_review}}"
                 </li>
