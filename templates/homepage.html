@@ -3,55 +3,26 @@
 
 {% block body %}
 
-<!-- <div class="search" >
-  <h2>Search and browse book reviews</h2>
-  <form action="/search" method="POST">
-    <input type="text"
-        placeholder="Title"
-        name="title">
-    <input type="text"
-        placeholder="Author"
-        name="author">
-    <p>
-      <input type="submit" value="Find books" class="btn btn-primary">
-    </p>
-</form>
-</div> -->
-<h2>Thinking what to read next?</h2>
+<h3>Thinking what to read next?</h3>
 
 <!-- list of books to present to the user -->
 <div id="book-list" class="row">
   {% for book in books %}
       <div class="book-info">
-        <img src="{{book.volumeInfo.imageLinks.get('smallThumbnail', '/static/no-image-available.jpg')}}">
-        <h3 class="">{{ book.volumeInfo.title }}</h3>
-        <div class="">{{', '.join(book.volumeInfo.get('authors', ['***']))}}</div>
+        <a href="/search/{{book.id}}"><img src="{{book.volumeInfo.imageLinks.get('smallThumbnail', '/static/no-image-available.jpg')}}" ></a>
+        <div class="">
+          {% if 'title' in book.volumeInfo %}
+            <a href="/search/{{book.id}}">
+              {{ book.volumeInfo.title }}</a>
+            <br/>
+          {% endif %}
+            </div>
+        <div class="">Authors: {{', '.join(book.volumeInfo.get('authors', ['***']))}}</div>
         <br/>
   </div>
   {% endfor %}
 </div>
 
-<!-- user authentication -->
-<div class="auth-class">
-  
-  <h2>Log In</h2>
-  <form action="/login" method="POST">
-    <p>
-      Email <input type="text" name="email">
-    </p>
-    
-    <p>
-      Password <input type="password" name="password">
-    </p>
-    
-    <p>
-      <input type="submit">
-    </p>
-    
-  </form>
-  <!-- <h4>Don't have an account?</h4>>
-  <a href="/register">Create an account</a>> -->
-</div>>
 
 
 

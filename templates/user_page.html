@@ -31,9 +31,10 @@
                     Title: {{review.book.title|title}}
                     <br>
                     <!-- we need to check if authors are in the db for that book -->
+                    {% if review.book.authors %}
                         Authors: 
                         {{review.book.authors }}
-
+                    {% endif %}
                     <br>
                     Your review: "{{review.text_review}}"
                 </li>
@@ -41,6 +42,12 @@
             </ul>
             
             {% endfor %}
+        </div>
+    {% else %}
+        <div>
+            {{"You haven't reviewed any books so far!"}}</div></br>
+            {{"Woiuld you like to review the most popular book of the month?"}}
+            
         </div>
     {% endif %}
     

@@ -4,6 +4,7 @@ from model import connect_to_db, db
 from jinja2 import StrictUndefined
 import requests
 import crud
+import random
 
 app = Flask(__name__)
 app.secret_key = "dev"
@@ -17,10 +18,13 @@ app.jinja_env.undefined = StrictUndefined
 def homepage():
     """Return 10 books for the homepage to suggest to the user"""
 
+    list_of_random_words = ["love", "world", "fashion", "peace", "mindfulness", "sun", "modern", "human", "health"]
+    random_word = random.choice(list_of_random_words)
+
     url = "https://www.googleapis.com/books/v1/volumes"
 
     
-    payload = {'q' : 'publishedDate=2022'}
+    payload = {'q' : f'intitle:{random_word}'}
 
     res = requests.get(url, params=payload)
     print("//////////////////////////////////////////////")
@@ -83,8 +87,7 @@ def show_book(google_book_id):
 
     db_book = crud.get_book_by_google_id(google_book_id)
     # if book exists in db we fetch it from db
-   
-   
+
     # if book is not in db we fetch book from google api by it's id
     url = f"https://www.googleapis.com/books/v1/volumes/{google_book_id}"
     res = requests.get(url)
@@ -107,10 +110,10 @@ def registration_form():
 @app.route("/users", methods=["POST"])
 def register_user():
     """Create a new user."""
-    nickname = request.form.get("nickname")
+    
     email = request.form.get("email")
     password = request.form.get("password")
-
+    
     user = crud.get_user_by_email(email)
     if user:
         flash("Cannot create an account with that email. Try again.")
@@ -166,7 +169,7 @@ def user_page():
             print('USER REVIEWS AUTHORS')
             for review in reviews:
                 print(f"SEE HERE:{review.book.authors}")
-            flash(f"Welcome back, {user.email}!")
+            flash(f"Welcome back, {user.email}!", category='info')
             return render_template("user_page.html", user=user, reviews = reviews)
         else:
            
