@@ -69,3 +69,7 @@
         font-size: 18px;
     }
   }
+.review_style{
+  font-style: italic;
+  quotes: "'" "'";
+}

@@ -23,17 +23,23 @@
         </div>
    <!-- SHowing rating and reviews if book exists in db -->
     <div class="">Rating: {{db_book.rating if db_book is not none else '0'}}</div>
+    <!-- creating a rating for the book -->
+    {% if session.get("user_id") %}
+    <div id="rate_the_book">
+        <a href="#">How would you rate this book?</a>
+    </div>
+    {% endif %}
     {% if db_book is not none %}
-        <div class="">Reviews: 
-            {% for review in db_book.reviews %}
+        <div>Reviews: 
             <ul>
-                <li>
-                    {{review.text_review}}
+            {% for review in db_book.reviews %}
+            
+                <li class="review_style">
+                    "{{review.text_review}}"
                 </li>
 
-            </ul>
-            
             {% endfor %}
+            </ul>
         </div>
     {% endif %}
     {% if session.get("user_id") %}
@@ -45,5 +51,5 @@
     </form>
     {% endif %}
 </div>
-
+<script type = "text/javascript" src="/static/js/.js"></script>
 {% endblock %}
