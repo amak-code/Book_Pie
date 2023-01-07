@@ -1,4 +1,47 @@
 
+body {
+  margin: 0 auto;
+  font-family: "Open Sans", sans-serif;
+  color: #212121;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Open Sans", sans-serif;
+  letter-spacing: -0.03125em;
+  margin: 0 0 1.5rem;
+  color: #212121;
+}
+
+h1 {
+  font-size: 1.77687rem;
+  line-height: 1.5rem;
+  font-weight: 700;
+}
+
+h2 {
+  font-size: 1.60181rem;
+  line-height: 1.5rem;
+  font-weight: 700;
+}
+
+h3 {
+  font-size: 1.125rem;
+  line-height: 1.5rem;
+  font-weight: 700;
+}
+
+h4 {
+  font-size: 1rem;
+  line-height: 1.5rem;
+  font-weight: 700;
+}
+
+h5 {
+  font-size: 1.333rem;
+  line-height: 1.5rem;
+  font-weight: 700;
+}
+
   .modal-body {
     padding: 0;
   }
@@ -20,7 +63,7 @@
   
   .form-control {
     background-color: white;
-    color: #fff;
+   
     padding-left: 0;
     border: 1px solid #b4c4c8;
     border-radius: 5px;
@@ -73,3 +116,15 @@
   font-style: italic;
   quotes: "'" "'";
 }
+
+.align_rating{
+  display: inline-block;
+  margin-right: 10px; 
+}
+
+/* .star.off {
+  background-image: &#9734;
+  background-color: yellow ;
+  background-size: 15px;
+} */
+

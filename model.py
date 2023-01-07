@@ -13,7 +13,7 @@ class Book(db.Model):
     title = db.Column(db.String)
     authors = db.Column(db.String)
     poster_path = db.Column(db.String)
-    rating = db.Column(db.Integer)
+    rating = db.Column(db.Float)
     
 
     reviews = db.relationship("Review", back_populates="book")

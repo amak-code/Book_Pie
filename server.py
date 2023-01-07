@@ -24,7 +24,7 @@ def homepage():
     url = "https://www.googleapis.com/books/v1/volumes"
 
     
-    payload = {'q' : f'intitle:{random_word}'}
+    payload = {'q' : f'intitle:"{random_word}"', 'orderBy':"newest"}
 
     res = requests.get(url, params=payload)
     print("//////////////////////////////////////////////")
@@ -143,6 +143,7 @@ def process_login():
     else:
         # Log in user by storing the user's email in session
         session["user_id"] = user.user_id
+        flash(f"Welcome back, {user.email}!")
         return redirect("/user")
         
 
@@ -169,11 +170,11 @@ def user_page():
             print('USER REVIEWS AUTHORS')
             for review in reviews:
                 print(f"SEE HERE:{review.book.authors}")
-            flash(f"Welcome back, {user.email}!", category='info')
+            # flash(f"Welcome back, {user.email}!", category='info')
             return render_template("user_page.html", user=user, reviews = reviews)
         else:
            
-            flash(f"Welcome back, {user.email}!")
+            # flash(f"Welcome back, {user.email}!")
             return render_template("user_page.html", user=user)
 
 @app.route("/review", methods=["POST"])
@@ -192,9 +193,10 @@ def review_book():
     print('/////////////////////////////')
     print('PRINT AUTHORS')
     print(data['volumeInfo']['authors'])
-    book = crud.create_book(google_book_id, data['volumeInfo']['title'] , data['volumeInfo']['authors'], data['volumeInfo']['imageLinks']['thumbnail'], rating=0)
-    db.session.add(book)
-    db.session.commit()
+    if not crud.get_book_by_google_id(google_book_id):
+        book = crud.create_book(google_book_id, data['volumeInfo']['title'] , data['volumeInfo']['authors'], data['volumeInfo']['imageLinks']['thumbnail'], rating=0)
+        db.session.add(book)
+        db.session.commit()
     db.session.add(review)
     db.session.commit()
     
@@ -202,6 +204,32 @@ def review_book():
     
     return redirect("/user")
 
+
+# method for rating the book
+@app.route("/rating", methods=["POST"])
+def rate_the_book():
+    value = request.json.get("rating")
+    google_book_id = request.json.get("book_id")
+    print('/////////////////////////////')
+    print('VALUE')
+    print(value)
+    crud.update_avg_rating(google_book_id, value)
+
+    """Fetching data from google book API using patricular id"""
+
+    url = f"https://www.googleapis.com/books/v1/volumes/{google_book_id}"
+    res = requests.get(url)
+    data = res.json()
+
+    if not crud.get_book_by_google_id(google_book_id):
+        book = crud.create_book(google_book_id, data['volumeInfo']['title'] , data['volumeInfo']['authors'], data['volumeInfo']['imageLinks']['thumbnail'], rating=0)
+        db.session.add(book)
+        db.session.commit()
+       
+
+    return {
+        "success": True, 
+        "status": f"Your rating of {value} has been confirmed"}
 
 if __name__ == '__main__':
     connect_to_db(app)

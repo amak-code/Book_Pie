@@ -101,11 +101,13 @@ def get_rating_by_google_id(google_book_id):
 
 def update_avg_rating(google_book_id, new_score):
     """Count average rating per book"""
-    book = Book.query.get(google_book_id)
+    book = Book.query.filter(Book.google_book_id == google_book_id).first()
     if book.rating == None:
-        book.rating = new_score
+        book.rating = float(new_score)
     else:
-        book.rating = (book.rating + new_score)/2
+        book.rating = (book.rating + int(new_score))/2
+
+    return book.rating
 
 def create_bookgenre(book_id, genre_id):
 

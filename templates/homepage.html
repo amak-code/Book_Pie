@@ -9,7 +9,11 @@
 <div id="book-list" class="row">
   {% for book in books %}
       <div class="book-info">
+        {% if 'imageLinks' in book.volumeInfo %}
         <a href="/search/{{book.id}}"><img src="{{book.volumeInfo.imageLinks.get('smallThumbnail', '/static/no-image-available.jpg')}}" ></a>
+        {% else %}
+          <a href="/search/{{book.id}}"><img src="{{'/static/no-image-available.jpg'}}" ></a>
+          {% endif %}
         <div class="">
           {% if 'title' in book.volumeInfo %}
             <a href="/search/{{book.id}}">

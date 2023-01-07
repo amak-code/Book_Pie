@@ -2,6 +2,7 @@
 {% block title %}Book Detailes Page{% endblock %}
 
 {% block body %}
+<link href="/static/star-rating.css" rel="stylesheet">
 <div id="" class="">
     {% if 'imageLinks' in book.volumeInfo %}
           <img src="{{book.volumeInfo.imageLinks.get('smallThumbnail', '/static/no-image-available.jpg')}}"
@@ -22,11 +23,32 @@
             {% endif %}
         </div>
    <!-- SHowing rating and reviews if book exists in db -->
-    <div class="">Rating: {{db_book.rating if db_book is not none else '0'}}</div>
+    <div class="align_rating">Average Rating: {{db_book.rating if db_book is not none else '0'}}</div>
     <!-- creating a rating for the book -->
     {% if session.get("user_id") %}
-    <div id="rate_the_book">
-        <a href="#">How would you rate this book?</a>
+    <div class="align_rating" id="rate_the_book">
+        <div>Rate this book</div>
+       
+    </div>
+    <div class="stars">
+        <select id = "star-rating-id" class="star-rating" data-google-book-id="{{book.id}}">
+            <option value="">Select a rating</option>
+            <option value="5">Excellent</option>
+            <option value="4">Very Good</option>
+            <option value="3">Average</option>
+            <option value="2">Poor</option>
+            <option value="1">Terrible</option>
+        </select>
+        <script src="/static/js/star-rating.min.js"></script>
+        <script>
+            var stars = new StarRating('.star-rating', {
+                maxStars: 5,
+                tooltip: false,
+                stars: function (el, item, index) {
+                el.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect class="gl-star-full" width="19" height="19" x="2.5" y="2.5"/><polygon fill="#FFF" points="12 5.375 13.646 10.417 19 10.417 14.665 13.556 16.313 18.625 11.995 15.476 7.688 18.583 9.333 13.542 5 10.417 10.354 10.417"/></svg>';
+    }
+            });
+        </script>
     </div>
     {% endif %}
     {% if db_book is not none %}
@@ -51,5 +73,5 @@
     </form>
     {% endif %}
 </div>
-<script type = "text/javascript" src="/static/js/.js"></script>
+<script type = "text/javascript" src="/static/js/submit_rating.js"></script>
 {% endblock %}
