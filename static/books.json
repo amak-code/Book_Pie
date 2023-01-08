@@ -6,7 +6,8 @@
         "Phil Stamper"
     ],
     "poster_path": "http://books.google.com/books/content?id=KUNAEAAAQBAJ&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
-    "rating": 5
+    "rating": 5,
+    "number_of_ratings" : 1
     },
 
     {
@@ -15,7 +16,8 @@
         "authors": [
           "Wilson J. Warren"],
         "poster_path": "http://books.google.com/books/content?id=5CDuO_6LYpgC&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
-        "rating": 4
+        "rating": 4,
+        "number_of_ratings" : 1
     },
 
     {
@@ -25,6 +27,7 @@
           "Nathaniel Cheairs Hughes"
         ],
         "poster_path": "http://books.google.com/books/content?id=_S5dgR5kPAAC&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
-        "rating": 3
+        "rating": 3,
+        "number_of_ratings" : 1
     }
 ]

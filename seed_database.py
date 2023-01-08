@@ -18,16 +18,17 @@ with open("static/books.json") as f:
 
 books_in_db = []
 for book in book_data:
-    google_book_id, title, authors, poster_path, rating = (
+    google_book_id, title, authors, poster_path, rating, number_of_ratings = (
         book["google_book_id"],
         book["title"],
         book["authors"],
         book["poster_path"],
-        book["rating"]
+        book["rating"],
+        book["number_of_ratings"]
     )
     
 
-    db_book = crud.create_book(google_book_id, title, authors, poster_path, rating)
+    db_book = crud.create_book(google_book_id, title, authors, poster_path, rating, number_of_ratings)
     books_in_db.append(db_book)
 
 model.db.session.add_all(books_in_db)

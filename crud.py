@@ -35,7 +35,7 @@ def get_user_by_email(email):
 
 
 
-def create_book(google_book_id, title, authors, poster_path, rating):
+def create_book(google_book_id, title, authors, poster_path, rating, number_of_ratings):
     """Create and return a new movie."""
 
     book = Book(
@@ -44,7 +44,8 @@ def create_book(google_book_id, title, authors, poster_path, rating):
         authors = ", ".join(authors) if authors is not None else "",
         # authors = authors,
         poster_path=poster_path,
-        rating = rating
+        rating = rating,
+        number_of_ratings = number_of_ratings
         )
 
     return book
@@ -104,9 +105,12 @@ def update_avg_rating(google_book_id, new_score):
     book = Book.query.filter(Book.google_book_id == google_book_id).first()
     if book.rating == None:
         book.rating = float(new_score)
+        book.number_of_ratings = 1
     else:
-        book.rating = (book.rating + int(new_score))/2
+        book.rating = (book.rating * book.number_of_ratings + int(new_score)) / (book.number_of_ratings + 1)
+        book.number_of_ratings += 1
 
+        print(f"/////////  BOOK RATING: {book.rating} ///////////")
     return book.rating
 
 def create_bookgenre(book_id, genre_id):

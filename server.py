@@ -194,7 +194,7 @@ def review_book():
     print('PRINT AUTHORS')
     print(data['volumeInfo']['authors'])
     if not crud.get_book_by_google_id(google_book_id):
-        book = crud.create_book(google_book_id, data['volumeInfo']['title'] , data['volumeInfo']['authors'], data['volumeInfo']['imageLinks']['thumbnail'], rating=0)
+        book = crud.create_book(google_book_id, data['volumeInfo']['title'] , data['volumeInfo']['authors'], data['volumeInfo']['imageLinks']['thumbnail'], rating=0, number_of_ratings = 0)
         db.session.add(book)
         db.session.commit()
     db.session.add(review)
@@ -213,20 +213,19 @@ def rate_the_book():
     print('/////////////////////////////')
     print('VALUE')
     print(value)
-    crud.update_avg_rating(google_book_id, value)
-
-    """Fetching data from google book API using patricular id"""
-
-    url = f"https://www.googleapis.com/books/v1/volumes/{google_book_id}"
-    res = requests.get(url)
-    data = res.json()
 
     if not crud.get_book_by_google_id(google_book_id):
-        book = crud.create_book(google_book_id, data['volumeInfo']['title'] , data['volumeInfo']['authors'], data['volumeInfo']['imageLinks']['thumbnail'], rating=0)
+        """Fetching data from google book API using patricular id"""
+
+        url = f"https://www.googleapis.com/books/v1/volumes/{google_book_id}"
+        res = requests.get(url)
+        data = res.json()
+        book = crud.create_book(google_book_id, data['volumeInfo']['title'] , data['volumeInfo']['authors'], data['volumeInfo']['imageLinks']['thumbnail'], rating=0, number_of_ratings = 0)
         db.session.add(book)
         db.session.commit()
-       
 
+    crud.update_avg_rating(google_book_id, value)
+    db.session.commit()
     return {
         "success": True, 
         "status": f"Your rating of {value} has been confirmed"}

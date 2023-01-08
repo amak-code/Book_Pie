@@ -14,7 +14,7 @@ class Book(db.Model):
     authors = db.Column(db.String)
     poster_path = db.Column(db.String)
     rating = db.Column(db.Float)
-    
+    number_of_ratings = db.Column(db.Integer)
 
     reviews = db.relationship("Review", back_populates="book")
     book_genres = db.relationship("BookGenre", back_populates = "book")
@@ -51,7 +51,7 @@ class Review(db.Model):
     __tablename__ = "reviews"
 
     review_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    # rating = db.Column(db.Integer)
+    # rating = db.Column(db.Float)
     text_review = db.Column(db.String)
     created_date = db.Column(db.DateTime(timezone=True), server_default=db.func.now())
     # book_id = db.Column(db.Integer, db.ForeignKey("books.book_id"))
