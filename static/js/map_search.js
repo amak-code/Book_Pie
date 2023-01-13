@@ -45,11 +45,25 @@ async function initMap()  {
     type: ['book_store']
     };
 
-
     var service = new google.maps.places.PlacesService(map);
     service.nearbySearch(request, callback);
+    // event listener for dragging the map 
+    google.maps.event.addListener(map, "dragend", function() {
+        var center = this.getCenter();
+        var latitude = center.lat();
+        var longitude = center.lng();
 
+        var pyrmont = new google.maps.LatLng(pos);
+        var request = {
+        location: center,
+        radius: '5000',
+        type: ['book_store']
+        };
     
+        var service = new google.maps.places.PlacesService(map);
+        service.nearbySearch(request, callback);
+
+      });
  
 }
 
