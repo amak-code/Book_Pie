@@ -122,9 +122,10 @@ h5 {
   margin-right: 10px; 
 }
 
-/* .star.off {
-  background-image: &#9734;
-  background-color: yellow ;
-  background-size: 15px;
-} */
+#map {
+  height: 540pt;
+  width: 100%;
+  margin: 0px;
+  padding: 0px;
+}
 

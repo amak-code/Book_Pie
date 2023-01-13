@@ -230,6 +230,17 @@ def rate_the_book():
         "success": True, 
         "status": f"Your rating of {value} has been confirmed"}
 
+
+# method for rendering Google Map
+
+@app.route("/map")
+def view_map():
+    """Map-related code."""
+
+    return render_template("map.html")
+
+
+
 if __name__ == '__main__':
     connect_to_db(app)
     app.debug = True
