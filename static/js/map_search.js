@@ -24,7 +24,8 @@ async function initMap()  {
         }
     }
  
-    // infoWindow = new google.maps.InfoWindow();
+    
+
     map = new google.maps.Map(document.getElementById("map"), {
         center: pos,
         zoom: 15,
@@ -85,8 +86,24 @@ function callback(results, status) {
             map: map,
             title: results[i].name,
         });
-       
-        }
+
+        const markerInfo = `
+        <h3>${marker.title}</h3>
+  
+        `;
+  
+        const infoWindow = new google.maps.InfoWindow({
+            content: markerInfo,
+            maxWidth: 200,
+        });
+    
+        marker.addListener('click', () => {
+            infoWindow.close()
+            infoWindow.open(map, marker);
+            
+        });
+        
+            }
     }
 }
 
