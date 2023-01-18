@@ -5,12 +5,14 @@ from jinja2 import StrictUndefined
 import requests
 import crud
 import random
+import os
 
 app = Flask(__name__)
 app.secret_key = "dev"
 app.jinja_env.undefined = StrictUndefined
+os.system("source secret.sh")
+API_KEY = os.environ['GOOGLEMAP_KEY']
 
-# API_KEY = os.environ['GOOGLEBOOK_KEY']
 LIST_OF_RANDOM_WORDS = ["love", "world", "fashion", "peace", "mindfulness", "sun",
  "modern", "human", "health", "nature", "baby", "detective", "romance", "kid", 
  "animal", "theater", "cook", "bake", "sex", "vacation", "parent", "movie", "history", "english"]
@@ -98,8 +100,12 @@ def show_book(google_book_id):
     print(res.url)
     print("//////////////////////////////////////////////")
     data = res.json()
-  
-    return render_template("book-details-page.html", book = data, db_book=db_book)
+    if crud.user_alredy_reviewed_book(session["user_id"], google_book_id):
+        already_reviewed = True
+    else:
+        already_reviewed = False
+
+    return render_template("book-details-page.html", book = data, db_book=db_book, already_reviewed = already_reviewed)
    
 
 
@@ -143,7 +149,7 @@ def process_login():
         return redirect('/')
 
     else:
-        # Log in user by storing the user's email in session
+        # Log in user by storing the user's id in session
         session["user_id"] = user.user_id
         flash(f"Welcome back, {user.email}!")
         return redirect("/user")
@@ -229,8 +235,19 @@ def rate_the_book():
         url = f"https://www.googleapis.com/books/v1/volumes/{google_book_id}"
         res = requests.get(url)
         data = res.json()
+        if 'imageLinks' not in data['volumeInfo']:
+            photo = ""
+        elif 'thumbnail' not in data['volumeInfo']['imageLinks']:
+            photo = ""
+        else:
+            photo = data['volumeInfo']['imageLinks']['thumbnail']
+
+        if 'averageRating' not in data['volumeInfo']:
+            rating = 0
+        else:
+            rating = data['volumeInfo']['averageRating']
         book = crud.create_book(google_book_id, data['volumeInfo']['title'] , 
-                data['volumeInfo']['authors'], data['volumeInfo']['imageLinks']['thumbnail'], data['volumeInfo']['averageRating'], number_of_ratings = 1)
+                data['volumeInfo']['authors'], photo, rating, number_of_ratings = 1)
         db.session.add(book)
         db.session.commit()
 
@@ -266,7 +283,7 @@ def get_suggested_books():
 def view_map():
     """Map-related code."""
 
-    return render_template("map.html")
+    return render_template("map.html", API_KEY=API_KEY)
 
 
 

@@ -91,6 +91,11 @@ def get_user_reviews(user_id):
 
     return Review.query.filter(Review.user_id == user_id).all()
 
+def user_alredy_reviewed_book(user_id, google_book_id):
+    """Check if a user has a review for a particular book."""
+    
+    return bool(Review.query.filter((Review.user_id == user_id)&(Review.google_book_id == google_book_id)).first())
+    
 
 
 def get_rating_by_google_id(google_book_id):
