@@ -50,8 +50,30 @@
             
         </div>
     {% endif %}
-        <div>{{"Would you like to review the most popular book of the month?"}}</div>
+        <div>{{"Would you like to review the most popular books of the month?"}}</div>
+        <div id="random_book-list" class="row">
+            {% for book in books %}
+                <div class="book-info">
+                  {% if 'imageLinks' in book.volumeInfo %}
+                  <a href="/search/{{book.id}}"><img src="{{book.volumeInfo.imageLinks.get('smallThumbnail', '/static/no-image-available.jpg')}}" ></a>
+                  {% else %}
+                    <a href="/search/{{book.id}}"><img src="{{'/static/no-image-available.jpg'}}" ></a>
+                    {% endif %}
+                  <div class="">
+                    {% if 'title' in book.volumeInfo %}
+                      <a href="/search/{{book.id}}">
+                        {{ book.volumeInfo.title }}</a>
+                      <br/>
+                    {% endif %}
+                      </div>
+                  <div class="">Authors: {{', '.join(book.volumeInfo.get('authors', ['***']))}}</div>
+                  <br/>
+            </div>
+            {% endfor %}
+          </div>
 </div>
+
+
 
 {% endblock %}
 

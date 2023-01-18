@@ -23,7 +23,8 @@
             {% endif %}
         </div>
    <!-- SHowing rating and reviews if book exists in db -->
-    <div class="align_rating">Average Rating: {{db_book.rating if db_book is not none else '0'}}</div>
+    <div class="align_rating">Average Rating: {{db_book.rating if db_book is not none else 
+        book.volumeInfo.get('averageRating', ['0']) }}</div>
     <!-- creating a rating for the book -->
     {% if session.get("user_id") %}
     <div class="align_rating" id="rate_the_book">

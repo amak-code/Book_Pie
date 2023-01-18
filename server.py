@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, request, flash, session, redirect
+from flask import Flask, render_template, request, flash, session, redirect, jsonify
 from model import connect_to_db, db
 from jinja2 import StrictUndefined
 import requests
@@ -11,15 +11,17 @@ app.secret_key = "dev"
 app.jinja_env.undefined = StrictUndefined
 
 # API_KEY = os.environ['GOOGLEBOOK_KEY']
-
+LIST_OF_RANDOM_WORDS = ["love", "world", "fashion", "peace", "mindfulness", "sun",
+ "modern", "human", "health", "nature", "baby", "detective", "romance", "kid", 
+ "animal", "theater", "cook", "bake", "sex", "vacation", "parent", "movie", "history", "english"]
 
 # Homepage methods
 @app.route("/")
 def homepage():
     """Return 10 books for the homepage to suggest to the user"""
 
-    list_of_random_words = ["love", "world", "fashion", "peace", "mindfulness", "sun", "modern", "human", "health"]
-    random_word = random.choice(list_of_random_words)
+    
+    random_word = random.choice(LIST_OF_RANDOM_WORDS)
 
     url = "https://www.googleapis.com/books/v1/volumes"
 
@@ -155,27 +157,23 @@ def log_out():
     return redirect('/')
 
 
-# methods for showing reviews on user's page and reviewng the book 
+# methods for showing reviews on user's page and reviewing the book 
 
 @app.route("/user")
 def user_page():
     if session["user_id"]:
         user = crud.get_user_by_id(session["user_id"])
+        books = get_suggested_books()
         if user.reviews: 
             reviews = user.reviews
-            print('/////////////////////////////')
-            print('USER REVIEWS')
-            print(f"SEE HERE:{user.reviews}")
-            print('/////////////////////////////')
-            print('USER REVIEWS AUTHORS')
             for review in reviews:
                 print(f"SEE HERE:{review.book.authors}")
             # flash(f"Welcome back, {user.email}!", category='info')
-            return render_template("user_page.html", user=user, reviews = reviews)
+            return render_template("user_page.html", user=user, reviews = reviews, books = books)
         else:
            
             # flash(f"Welcome back, {user.email}!")
-            return render_template("user_page.html", user=user)
+            return render_template("user_page.html", user=user, books = books)
 
 @app.route("/review", methods=["POST"])
 def review_book():
@@ -194,7 +192,18 @@ def review_book():
     print('PRINT AUTHORS')
     print(data['volumeInfo']['authors'])
     if not crud.get_book_by_google_id(google_book_id):
-        book = crud.create_book(google_book_id, data['volumeInfo']['title'] , data['volumeInfo']['authors'], data['volumeInfo']['imageLinks']['thumbnail'], rating=0, number_of_ratings = 0)
+        if 'imageLinks' not in data['volumeInfo']:
+            photo = ""
+        elif 'thumbnail' not in data['volumeInfo']['imageLinks']:
+            photo = ""
+        else:
+            photo = data['volumeInfo']['imageLinks']['thumbnail']
+
+        if 'averageRating' not in data['volumeInfo']:
+            rating = 0
+        else:
+            rating = data['volumeInfo']['averageRating']
+        book = crud.create_book(google_book_id, data['volumeInfo']['title'] , data['volumeInfo']['authors'], photo, rating, number_of_ratings = 0)
         db.session.add(book)
         db.session.commit()
     db.session.add(review)
@@ -220,7 +229,8 @@ def rate_the_book():
         url = f"https://www.googleapis.com/books/v1/volumes/{google_book_id}"
         res = requests.get(url)
         data = res.json()
-        book = crud.create_book(google_book_id, data['volumeInfo']['title'] , data['volumeInfo']['authors'], data['volumeInfo']['imageLinks']['thumbnail'], rating=0, number_of_ratings = 0)
+        book = crud.create_book(google_book_id, data['volumeInfo']['title'] , 
+                data['volumeInfo']['authors'], data['volumeInfo']['imageLinks']['thumbnail'], data['volumeInfo']['averageRating'], number_of_ratings = 1)
         db.session.add(book)
         db.session.commit()
 
@@ -230,6 +240,25 @@ def rate_the_book():
         "success": True, 
         "status": f"Your rating of {value} has been confirmed"}
 
+
+# method for showing suggested books for user's review
+
+def get_suggested_books():
+
+    random_word = random.choice(LIST_OF_RANDOM_WORDS)
+    url = "https://www.googleapis.com/books/v1/volumes"
+
+    payload = {'q' : f'intitle:"{random_word}"', 'maxResults':"40", 'orderBy':"newest"}
+    res = requests.get(url, params=payload)
+    data = res.json()
+    results = data['items']
+    filtered_books = []
+    for book in results:
+        if ('averageRating'in book['volumeInfo']) and (book['volumeInfo']['averageRating']) >= 4.5 :
+            filtered_books.append(book)
+
+    return filtered_books
+        
 
 # method for rendering Google Map
 

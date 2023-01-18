@@ -87,9 +87,42 @@ function callback(results, status) {
             title: results[i].name,
         });
 
+        // Builds an InfoWindow to display details above the marker
+        let rating = "None"
+        if (results[i].rating)
+            rating = results[i].rating
+        
+        let photo = "/static/images/no-image-available.jpg"
+        
+        if (results[i].photos) {
+            let firstPhoto = results[i].photos[0];
+            photo = firstPhoto.getUrl();
+            
+        }
+
+        // TODO: make a PlacesService.getDetails(request, callback) to get opening_hours
+        let is_open = "not providing data if it's open ";
+        var time_value = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        console.log(time_value)
+        if (results[i].opening_hours){
+            var open_hours = results[i].opening_hours.open_now
+            if (open_hours){
+                is_open = "open"
+            }
+            else{
+                is_open = "closed"
+            }
+            console.log("OPENIG HOURS")
+            console.log(open_hours)
+
+        }
+
+
         const markerInfo = `
+        <img src = ${photo} style = "width: 100pt; height: 100pt;">
         <h3>${marker.title}</h3>
-  
+        <p>Rating: ${rating}</p>
+        <p>The store is ${is_open} now at ${time_value}</p>
         `;
   
         const infoWindow = new google.maps.InfoWindow({
