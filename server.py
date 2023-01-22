@@ -77,7 +77,7 @@ def find_books():
     data = res.json()
     if not 'items' in data:
         flash("Sorry! We couldn't find anything.")
-        return redirect("/search")
+        return redirect("/")
     else:
         results = data['items']
         return render_template('search_results.html', books = results)
@@ -100,12 +100,15 @@ def show_book(google_book_id):
     print(res.url)
     print("//////////////////////////////////////////////")
     data = res.json()
-    if crud.user_alredy_reviewed_book(session["user_id"], google_book_id):
+
+    already_reviewed = False
+
+    if 'user_id' in session and crud.user_alredy_reviewed_book(session["user_id"], google_book_id):
         already_reviewed = True
-    else:
-        already_reviewed = False
+        
 
     return render_template("book-details-page.html", book = data, db_book=db_book, already_reviewed = already_reviewed)
+
    
 
 

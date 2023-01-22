@@ -1,6 +1,6 @@
 'use strict';
 
-document.querySelector('.star-rating').addEventListener('change', (event) => {
+document.querySelector('#star-rating-id').addEventListener('change', (event) => {
     event.preventDefault();
     const formInputs = {
               rating: document.getElementById("star-rating-id").value,
