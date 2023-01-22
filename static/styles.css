@@ -39,7 +39,7 @@ h4 {
 h5 {
   font-size: 1.333rem;
   line-height: 1.5rem;
-  font-weight: 700;
+  font-weight: 500;
 }
 
   .modal-body {
@@ -154,3 +154,10 @@ h5 {
   100% { transform: rotate(360deg); }
 }
 
+.card{
+  text-decoration: none;
+}
+
+.card img {
+  margin: 1rem 1rem 0 1rem;
+}

@@ -2,29 +2,31 @@
 {% block title %}Book Search Results{% endblock %}
 
 {% block body %}
-<div id="book-search-list" class="row">
+<div class="container">
+  <div id="book-search-list" class="row gy-4 justify-content-center">
     {% for book in books %}
-        <div class="book-details">
-          {% if 'imageLinks' in book.volumeInfo %}
-          <img src="{{book.volumeInfo.imageLinks.get('smallThumbnail', '/static/no-image-available.jpg')}}"
-            width="150" 
-            height="200">
-          {% else %}
-          <img src="{{'/static/no-image-available.jpg'}}"
-          width="150" 
-          height="200">
-          {% endif %}
-          {% if 'title' in book.volumeInfo %}
-            <a href="/search/{{book.id}}">
-              {{ book.volumeInfo.title }}</a>
-            <br/>
-          {% endif %}
-          {% if 'authors' in book.volumeInfo%}
-          <div class="">{{ ', '.join(book.volumeInfo.get('authors', ['***'])) }}</div>
-          <br/>
-          {% endif %}
+    <div class="col-xl-2 col-md-3 col-sm-6">
+          <a href="/search/{{book.id}}" class="book-details card h-100" >
+            {% if 'imageLinks' in book.volumeInfo %}
+            <img src="{{book.volumeInfo.imageLinks.get('smallThumbnail', '/static/no-image-available.jpg')}}" class="">
+            {% else %}
+            <img src="{{'/static/no-image-available.jpg'}}" class="card-img-top">
+            {% endif %}
+            <div class="card-body">
+              {% if 'title' in book.volumeInfo %}
+                <h5 class="card-title">Title: {{ book.volumeInfo.title }}</h5>
+              {%else%} 
+              <h5 class="card-title"></h5> No title </h5> 
+              {% endif %}
+
+              {% if 'authors' in book.volumeInfo%}
+                <p class="card-text">Authors: {{ ', '.join(book.volumeInfo.get('authors', ['***'])) }}</p>
+              {% endif %}
+              <div class="align_rating">Average Rating: {{book.volumeInfo.get('averageRating', '0') }}</div>
+          </div>
+        </a>
     </div>
     {% endfor %}
   </div>
-
+</div>
 {% endblock %}
