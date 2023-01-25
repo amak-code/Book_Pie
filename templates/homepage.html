@@ -2,32 +2,67 @@
 {% block title %}Book Pie{% endblock %}
 
 {% block body %}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js"></script>
 
-<h3>Thinking what to read next?</h3>
+<!-- list of the recently published books to present to the user -->
 
-<!-- list of books to present to the user -->
-<div id="book-list" class="row">
-  {% for book in books %}
-      <div class="book-info">
-        {% if 'imageLinks' in book.volumeInfo %}
-        <a href="/search/{{book.id}}"><img src="{{book.volumeInfo.imageLinks.get('smallThumbnail', '/static/no-image-available.jpg')}}" ></a>
-        {% else %}
-          <a href="/search/{{book.id}}"><img src="{{'/static/no-image-available.jpg'}}" ></a>
-          {% endif %}
-        <div class="">
-          {% if 'title' in book.volumeInfo %}
-            <a href="/search/{{book.id}}">
-              {{ book.volumeInfo.title }}</a>
-            <br/>
-          {% endif %}
-            </div>
-        <div class="">Authors: {{', '.join(book.volumeInfo.get('authors', ['***']))}}</div>
-        <br/>
+<div class="container">
+  <h3>Thinking what to read next?</h3>
+  <div id="book-search-list" class="row gy-4 justify-content-center">
+    {% for book in books %}
+    <div class="col-xl-2 col-md-3 col-sm-6">
+          <a href="/search/{{book.id}}" class="book-details card h-100" >
+            {% if 'imageLinks' in book.volumeInfo %}
+            <img src="{{book.volumeInfo.imageLinks.get('smallThumbnail', '/static/images/no-image-available.jpg')}}" class="">
+            {% else %}
+            <img src="{{'/static/images/no-image-available.jpg'}}" class="">
+            {% endif %}
+            <div class="card-body">
+              {% if 'title' in book.volumeInfo %}
+                <h5 class="card-title">Title: {{ book.volumeInfo.title }}</h5>
+              {%else%} 
+              <h5 class="card-title"></h5> No title </h5> 
+              {% endif %}
+
+              {% if 'authors' in book.volumeInfo%}
+                <p class="card-text">Authors: {{ ', '.join(book.volumeInfo.get('authors', ['***'])) }}</p>
+              {% endif %}
+              <div class="align_rating">Average Rating: {{book.volumeInfo.get('averageRating', '0') }}</div>
+          </div>
+        </a>
+    </div>
+    {% endfor %}
   </div>
-  {% endfor %}
 </div>
 
+<!-- Carousel of recently reviewed books-->
 
+<div id="carouselExampleControls" class="carousel slide container" data-bs-ride="carousel">
+  <h3>Recently reviewed books</h3>
+  <div class="carousel-inner">
+    {% for db_book in db_books %}
+    <div  class="card carousel-item carousel-card">
+      <div class="img-wrapper">
+        <img src="{{db_book.poster_path if db_book.poster_path else '/static/images/no-image-available.jpg'}}" class="d-block" alt="...">
+      </div>
+      <div class="card-body">
+          <h5 class="card-title">{{db_book.title}}</h5>
+          <p class="card-text">{{db_book.authors}}</p>
+          <a href="/search/{{db_book.google_book_id}}" class="btn btn-primary">Click to see the reviews</a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
 
-
+<script type = "text/javascript" src="/static/js/carousel.js"></script>
 {% endblock %}

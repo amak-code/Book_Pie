@@ -43,7 +43,7 @@ class User(db.Model):
 
     def __repr__(self):
         return f"<User user_id={self.user_id} email={self.email}>"
-
+# select distinct books.* from books join reviews by bookes.id=reviews.book_id order by reviews.date desc limit 10
 
 class Review(db.Model):
     """A book review."""
@@ -51,10 +51,8 @@ class Review(db.Model):
     __tablename__ = "reviews"
 
     review_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    # rating = db.Column(db.Float)
     text_review = db.Column(db.String)
     created_date = db.Column(db.DateTime(timezone=True), server_default=db.func.now())
-    # book_id = db.Column(db.Integer, db.ForeignKey("books.book_id"))
     google_book_id = db.Column(db.String, db.ForeignKey("books.google_book_id"))
     user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"))
 

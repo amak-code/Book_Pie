@@ -8,9 +8,9 @@
     <div class="col-xl-2 col-md-3 col-sm-6">
           <a href="/search/{{book.id}}" class="book-details card h-100" >
             {% if 'imageLinks' in book.volumeInfo %}
-            <img src="{{book.volumeInfo.imageLinks.get('smallThumbnail', '/static/no-image-available.jpg')}}" class="">
+            <img src="{{book.volumeInfo.imageLinks.get('smallThumbnail', '/static/images/no-image-available.jpg')}}" class="">
             {% else %}
-            <img src="{{'/static/no-image-available.jpg'}}" class="card-img-top">
+            <img src="{{'/static/images/no-image-available.jpg'}}" class="">
             {% endif %}
             <div class="card-body">
               {% if 'title' in book.volumeInfo %}

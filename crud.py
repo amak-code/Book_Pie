@@ -56,6 +56,10 @@ def get_books():
 
     return Book.query.all()
 
+def get_recently_added_books():
+    """Return recently added books"""
+
+    return Book.query.join(Review).order_by(Review.created_date.desc()).limit(10).distinct().all()
 
 def get_book_by_id(book_id):
     """Return a book by primary key."""
@@ -88,7 +92,7 @@ def create_review(text_review, google_book_id, user_id):
     return review
 
 def get_user_reviews(user_id):
-
+    """Get all the reviews from a particular user"""
     return Review.query.filter(Review.user_id == user_id).all()
 
 def user_alredy_reviewed_book(user_id, google_book_id):

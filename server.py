@@ -22,14 +22,13 @@ LIST_OF_RANDOM_WORDS = ["love", "world", "fashion", "peace", "mindfulness", "sun
 def homepage():
     """Return 10 books for the homepage to suggest to the user"""
 
-    
+    recently_added_books =crud.get_recently_added_books()
+    print("GET_recently_added_books//////////////////////////////////////////////")
+    print(recently_added_books)
     random_word = random.choice(LIST_OF_RANDOM_WORDS)
 
     url = "https://www.googleapis.com/books/v1/volumes"
-
-    
     payload = {'q' : f'intitle:"{random_word}"', 'orderBy':"newest"}
-
     res = requests.get(url, params=payload)
     print("//////////////////////////////////////////////")
     print(res.url)
@@ -40,7 +39,7 @@ def homepage():
     
     results = data['items']
 
-    return render_template('homepage.html', books = results)
+    return render_template('homepage.html', books = results, db_books = recently_added_books)
 
 
 # Search and show results and details methods

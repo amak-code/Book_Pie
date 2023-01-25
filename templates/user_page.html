@@ -2,58 +2,72 @@
 {% block title %}User's Page{% endblock %}
 
 {% block body %}
-
-<!-- <div class="search">
-    <h2>Do you want to review a book?</h2>
-    <form action="/search">
-      <input type="text"
-          placeholder="Title"
-          name="title">
-      <input type="text"
-          placeholder="Author"
-          name="author">
-      <p>
-        <input type="submit" value="Find books" class="btn btn-primary">
-      </p>
-  </form>
-  </div>
-<div> -->
+  
+  <div class="main-container">
     {% if reviews is defined and reviews %}
-    <p>The books that you previously reviewed:</p>
-    
-        <div class="">Reviews: 
-            {% for review in reviews %}
-           
-            <ul>
-                <li>
-                    <img src="{{review.book.poster_path}}" >
-                    <br>
-                    Title: {{review.book.title|title}}
-                    <br>
-                    <!-- we need to check if authors are in the db for that book -->
+    <div class="container">
+      <img class= "center-image" src="/static/images/books_picture.jpg" alt="">
+      <h3 class="text_with_image">The books that you previously reviewed:</h3>
+      <div class="row">
+        <div id="book-search-list" class="row col-9 gy-4 justify-content-center">
+          {% for review in reviews %}
+          <div class="col-3">
+                <div class="book-details card h-100" >
+                  <img src="{{review.book.poster_path if review.book.poster_path else '/static/images/no-image-available.jpg'}}" >
+                  <div class="card-body">
+                    <h5 class="card-title">Title: {{review.book.title|title}}</h5>
                     {% if review.book.authors %}
-                        Authors: 
-                        {{review.book.authors }}
+                    <p class="card-text"> Authors: 
+                        {{review.book.authors }}</p>
                     {% endif %}
-                    <br>
-                    Your review: "{{review.text_review}}"
-                </li>
-
-            </ul>
-            
-            {% endfor %}
+                    <div class="align_rating">Your review: "{{review.text_review}}"</div>
+                </div>
+              </div>
+          </div>
+          {% endfor %}
         </div>
+        <div id="random_book-list" class="col-3 gy-4 justify-content-center">
+          <div>{{"Would you like to review the most popular books of the month?"}}</div>
+          {% for book in books %}
+          <div class="col-9 popular_book">
+              <div class="book-info book-details card h-100">
+                {% if 'imageLinks' in book.volumeInfo %}
+                <a href="/search/{{book.id}}"><img src="{{book.volumeInfo.imageLinks.get('smallThumbnail', '/static/no-image-available.jpg')}}" ></a>
+                {% else %}
+                  <a href="/search/{{book.id}}"><img src="{{'/static/no-image-available.jpg'}}" ></a>
+                  {% endif %}
+                <div class="card-body">
+                  <h5 class="card-title">
+                    {% if 'title' in book.volumeInfo %}
+                      <a href="/search/{{book.id}}">
+                        {{ book.volumeInfo.title }}</a>
+                     
+                    {% endif %}
+                  </h5>
+                  <p class="card-text">Authors: {{', '.join(book.volumeInfo.get('authors', ['***']))}}</p>
+                  <br/>
+              </div>
+
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    
+    </div>
+  
     {% else %}
         <div>
-            {{"You haven't reviewed any books so far!"}}</div></br>
-            
-            
+            {{"You haven't reviewed any books so far!"}}
         </div>
+        
     {% endif %}
-        <div>{{"Would you like to review the most popular books of the month?"}}</div>
-        <div id="random_book-list" class="row">
+        <!-- <div class="container"> 
+          <div>{{"Would you like to review the most popular books of the month?"}}</div>
+          <div id="random_book-list" class="row gy-4 justify-content-center">
             {% for book in books %}
-                <div class="book-info">
+            <div class="col-xl-2 col-md-3 col-sm-6">
+                <div class="book-info book-details card h-100">
                   {% if 'imageLinks' in book.volumeInfo %}
                   <a href="/search/{{book.id}}"><img src="{{book.volumeInfo.imageLinks.get('smallThumbnail', '/static/no-image-available.jpg')}}" ></a>
                   {% else %}
@@ -68,9 +82,12 @@
                       </div>
                   <div class="">Authors: {{', '.join(book.volumeInfo.get('authors', ['***']))}}</div>
                   <br/>
+              </div>
             </div>
             {% endfor %}
           </div>
+        </div> -->
+        
 </div>
 
 

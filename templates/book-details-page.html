@@ -1,36 +1,44 @@
 {% extends 'base.html' %}
 {% block title %}Book Detailes Page{% endblock %}
 
+{% block body_attrs %}
+
+{% endblock body_attrs%}
+
 {% block body %}
 <link href="/static/star-rating.css" rel="stylesheet">
-<div id="" class="">
+<main>
+<div id="" class="book_container">
     {% if 'imageLinks' in book.volumeInfo %}
-          <img src="{{book.volumeInfo.imageLinks.get('smallThumbnail', '/static/no-image-available.jpg')}}"
+          <img class="book_container__image" src="{{book.volumeInfo.imageLinks.get('smallThumbnail', '/static/images/no-image-available.jpg')}}"
             width="150" 
             height="200">
     {% else %}
-          <img src="{{'/static/no-image-available.jpg'}}"
+          <img class="book_container_image" src="{{'/static/images/no-image-available.jpg'}}"
           width="150" 
           height="200">
     {% endif %}
-        <h3 class="">Title: {{ book.volumeInfo.title }}</h3>
-        <div class="">Authors: {{', '.join(book.volumeInfo.get('authors', ['***']))}}</div>
-        <div>Description:
-            {% if 'description' in book.volumeInfo %}
-                {{book.volumeInfo.description|striptags}}
-            {% else %}
-                No description so far.
-            {% endif %}
-        </div>
+        <div class="book_container_text">
+            <h4 class="">Title: {{ book.volumeInfo.title }}</h4>
+            <p class="">Authors: {{', '.join(book.volumeInfo.get('authors', ['***']))}}</p>
+            <p>Description:
+                {% if 'description' in book.volumeInfo %}
+                    {{book.volumeInfo.description|striptags}}
+                {% else %}
+                    No description so far.
+                {% endif %}
+            </p>
    <!-- SHowing rating and reviews if book exists in db -->
-    <div class="align_rating">Average Rating: {{db_book.rating if db_book is not none else 
-        book.volumeInfo.get('averageRating', '0') }}</div>
+            <div class="align_rating">Average Rating: {{db_book.rating if db_book is not none else 
+                book.volumeInfo.get('averageRating', '0') }}
+            </div>
+        </div>
+        
     <!-- creating a rating for the book -->
     {% if session.get("user_id") %}
-        
+        {%if not already_reviewed%}
     <div class="align_rating" id="rate_the_book">
         <div>Rate this book</div>
-       
     </div>
     <div class="stars">
         <select id = "star-rating-id" class="star-rating" data-google-book-id="{{book.id}}">
@@ -52,7 +60,7 @@
             });
         </script>
     </div>
-        
+        {% endif %}
     {% endif %}
     {% if db_book is not none %}
         <div>Reviews: 
@@ -80,5 +88,7 @@
         {% endif %}
     {% endif %}
 </div>
+<div class="book-details-background"></div>
+</main>
 <script type = "text/javascript" src="/static/js/submit_rating.js"></script>
 {% endblock %}

@@ -25,9 +25,11 @@ h2 {
 }
 
 h3 {
-  font-size: 1.125rem;
+  font-size: 1.225rem;
   line-height: 1.5rem;
-  font-weight: 700;
+  font-weight: 600;
+  text-align: center;
+  margin: 20pt;
 }
 
 h4 {
@@ -37,7 +39,7 @@ h4 {
 }
 
 h5 {
-  font-size: 1.333rem;
+  font-size: 1.1rem;
   line-height: 1.5rem;
   font-weight: 500;
 }
@@ -76,11 +78,11 @@ h5 {
 	border-radius: 50px;
 }
 .btn.btn-primary {
-	padding: 15px 50px;
-	font-family: alfa slab one;
-	font-size: 20px;
-	letter-spacing: 2px;
-	border-radius: 50px;
+	/* padding: 15px 50px; */
+	/* font-family: alfa slab one; */
+	font-size: 15px;
+	/* letter-spacing: 2px;
+	border-radius: 50px; */
 }
   .form-area .btn:hover {
     background-color: inherit;
@@ -123,7 +125,7 @@ h5 {
 }
 
 #map {
-  height: 540pt;
+  height: 740pt;
   width: 100%;
   margin: 0px;
   padding: 0px;
@@ -156,8 +158,130 @@ h5 {
 
 .card{
   text-decoration: none;
+  margin: 0 .5em;
+  box-shadow: 8px 0px 10px 0 rgba(22, 22, 26, 0.18);
+  border: none;
 }
 
 .card img {
   margin: 1rem 1rem 0 1rem;
+  max-height: 100%;
 }
+
+.carousel-inner {
+  display: flex;
+  gap: 1rem
+}
+.carousel-item {
+  margin-right: 0;
+  flex: 0 0 calc((100% - 4rem)/5);
+  display: flex ;
+}
+
+.carousel-inner{
+  padding: 1em;
+}
+
+.carousel-control-prev, .carousel-control-next{
+  background-color: #e1e1e1;
+  width: 6vh;
+  height: 6vh;
+  border-radius: 50%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.card .img-wrapper {
+  max-width: 100%;
+  height: 13em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.card-body .btn {
+  margin-top: auto;
+}
+
+.carousel-card {
+  background-color:rgb(230 210 210 / 20%);
+}
+
+.carousel-control-prev {
+  right: 100%;
+  left: unset;
+}
+
+.carousel-control-next {
+  left: 100%;
+  right: unset;
+}
+
+#book-search-list {
+  margin-bottom: 30pt;
+}
+
+.center-image {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+
+.book_container {
+  box-shadow: 4px 0px 16px 0 rgba(22, 22, 26, 0.18);
+  padding: 20px 40px 40px;
+  max-width: 600px;
+  background: linear-gradient(to bottom, #c8c8c6, #c3c1bf 50%, #c6c5c3);
+  z-index: 1;
+}
+
+  .book_container_image {
+    width: 250px;
+    margin: 30px 30px 30px 0;
+    float: left;
+  }
+  .book_container_text {
+    display: inline;
+  }
+
+  .book-details-background {
+    background-image: url("/static/images//book_with_hand.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    flex: 1 1 auto;
+  }
+
+  main {
+    display: flex;
+  }
+
+  .main {
+    background: linear-gradient(to bottom, #efefe7, #e3e0dd 50%, #bdbbb7);
+  }
+
+  .btn-color{
+    color: white;
+    border-color: white;
+  }
+
+  .social_icon {
+    margin-left: 10pt;
+    margin-right: 10pt;
+    text-decoration: none;
+  }
+
+  .book-info {
+    background-color: rgb(230 210 210 / 20%);
+    border: 0.7px solid black;
+  }
+
+  .popular_book{
+    margin-left: auto;
+    margin-bottom: 10pt;
+  }
