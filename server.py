@@ -169,7 +169,7 @@ def log_out():
 
 @app.route("/user")
 def user_page():
-    if session["user_id"]:
+    if "user_id" in session:
         user = crud.get_user_by_id(session["user_id"])
         books = get_suggested_books()
         if user.reviews: 
@@ -182,6 +182,9 @@ def user_page():
            
             # flash(f"Welcome back, {user.email}!")
             return render_template("user_page.html", user=user, books = books)
+
+    else:
+        return redirect('/')
 
 @app.route("/review", methods=["POST"])
 def review_book():

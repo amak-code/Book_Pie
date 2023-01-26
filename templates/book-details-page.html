@@ -10,7 +10,7 @@
 <main>
 <div id="" class="book_container">
     {% if 'imageLinks' in book.volumeInfo %}
-          <img class="book_container__image" src="{{book.volumeInfo.imageLinks.get('smallThumbnail', '/static/images/no-image-available.jpg')}}"
+          <img class="book_container_image" src="{{book.volumeInfo.imageLinks.get('smallThumbnail', '/static/images/no-image-available.jpg')}}"
             width="150" 
             height="200">
     {% else %}
