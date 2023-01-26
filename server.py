@@ -6,6 +6,7 @@ import requests
 import crud
 import random
 import os
+import bcrypt
 
 app = Flask(__name__)
 app.secret_key = "dev"
@@ -123,12 +124,14 @@ def register_user():
     
     email = request.form.get("email")
     password = request.form.get("password")
-    
+    hash_password = bcrypt.hashpw(password.encode('utf8'), bcrypt.gensalt())
+    hash_password_decoded = hash_password.decode('utf8')
+
     user = crud.get_user_by_email(email)
     if user:
         flash("Cannot create an account with that email. Try again.")
     else:
-        user = crud.create_user(email, password, request.form.get("nickname", None), 
+        user = crud.create_user(email, hash_password_decoded, request.form.get("nickname", None), 
             request.form.get("user_picture", None), request.form.get("zipcode", None))
         db.session.add(user)
         db.session.commit()
@@ -145,16 +148,23 @@ def process_login():
 
     user = crud.get_user_by_email(email)
     
+    password_encoded = password.encode()
 
-    if not user or user.password != password:
-        flash("The email or password you entered was incorrect.")
-        return redirect('/')
 
-    else:
-        # Log in user by storing the user's id in session
+    print("/////////////////FFFFUCKING PASSWORD RESULT FROM THE USER INPUT")
+    print(password_encoded)
+    print("/////////////////FUCKING PASSWORD RESULT FROM THEvDBBBB")
+    print((user.password).encode('utf8'))
+    # if  user or user.password != password:
+    if user and bcrypt.checkpw(password.encode('utf8'), user.password.encode('utf8')):
         session["user_id"] = user.user_id
         flash(f"Welcome back, {user.email}!")
         return redirect("/user")
+        
+    else:
+        # Log in user by storing the user's id in session
+        flash("The email or password you entered was incorrect.")
+        return redirect('/')
         
 
 @app.route('/logout') 
