@@ -151,11 +151,6 @@ def process_login():
     password_encoded = password.encode()
 
 
-    print("/////////////////FFFFUCKING PASSWORD RESULT FROM THE USER INPUT")
-    print(password_encoded)
-    print("/////////////////FUCKING PASSWORD RESULT FROM THEvDBBBB")
-    print((user.password).encode('utf8'))
-    # if  user or user.password != password:
     if user and bcrypt.checkpw(password.encode('utf8'), user.password.encode('utf8')):
         session["user_id"] = user.user_id
         flash(f"Welcome back, {user.email}!")
@@ -240,10 +235,7 @@ def review_book():
 def rate_the_book():
     value = request.json.get("rating")
     google_book_id = request.json.get("book_id")
-    print('/////////////////////////////')
-    print('VALUE')
-    print(value)
-
+    
     if not crud.get_book_by_google_id(google_book_id):
         """Fetching data from google book API using patricular id"""
 

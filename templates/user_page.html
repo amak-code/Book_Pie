@@ -15,7 +15,7 @@
       <div id="book-search-list" class="row col-9 gy-4 justify-content-center">
         {% for review in reviews %}
         <div class="col-3">
-          <div class="book-details card h-100" >
+          <div class="book-details card" >
             <img src="{{review.book.poster_path if review.book.poster_path else '/static/images/no-image-available.jpg'}}" >
             <div class="card-body">
               <h5 class="card-title">Title: {{review.book.title|title}}</h5>
@@ -35,7 +35,7 @@
         <div class="align_title_random">{{"Would you like to review the most popular books of the month?"}}</div>
         {% for book in books %}
         <div class="col-9 popular_book">
-          <div class="book-info book-details card h-100">
+          <div class="book-info card">
             {% if 'imageLinks' in book.volumeInfo %}
             <a href="/search/{{book.id}}"><img src="{{book.volumeInfo.imageLinks.get('smallThumbnail', '/static/no-image-available.jpg')}}" ></a>
             {% else %}

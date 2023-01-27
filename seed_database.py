@@ -38,7 +38,7 @@ model.db.session.commit()
 # Create 10 users
 for n in range(10):
     email = f"user{n}@test.com"  # A unique email!
-    password = "test"
+    password = "$2b$12$shSzmJsgd75BaAD1LiG4Hu.RWT.ba09vHKsPgdby37h1iz.6G3PoS"
 
     user = crud.create_user(email, password, nickname='', user_picture='', zipcode=None)
     model.db.session.add(user)

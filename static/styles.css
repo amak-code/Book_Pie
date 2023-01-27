@@ -316,3 +316,8 @@ h5 {
   .align_title_random{
     text-align: end;
   }
+
+  .book-details {
+    overflow: auto;
+    height: 500px;
+  }
