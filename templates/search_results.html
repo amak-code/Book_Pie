@@ -16,13 +16,13 @@
               {% if 'title' in book.volumeInfo %}
                 <h5 class="card-title">Title: {{ book.volumeInfo.title }}</h5>
               {%else%} 
-              <h5 class="card-title"></h5> No title </h5> 
+                <h5 class="card-title">No title </h5> 
               {% endif %}
 
               {% if 'authors' in book.volumeInfo%}
                 <p class="card-text">Authors: {{ ', '.join(book.volumeInfo.get('authors', ['***'])) }}</p>
               {% endif %}
-              <div class="align_rating">Average Rating: {{book.volumeInfo.get('averageRating', '0') }}</div>
+              <!-- <div class="align_rating">Average Rating: {{book.volumeInfo.get('averageRating', '0') }}</div> -->
           </div>
         </a>
     </div>

@@ -13,11 +13,7 @@ document.querySelector('#star-rating-id').addEventListener('change', (event) => 
         headers: {
         'Content-Type': 'application/json',
         },
-    })
-        .then((response) => response.json())
-        .then((responseJson) => {
-        alert(responseJson.status);
-        });
+    });
 
     console.log(formInputs);
 
