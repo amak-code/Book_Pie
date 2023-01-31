@@ -6,10 +6,6 @@
 
 {% endblock %}
 
-{% block body_attrs %}
-  onload="myFunction();"
-{% endblock body_attrs%}
-
 {% block body%}
      
 <div id="loader"></div>
@@ -20,20 +16,6 @@
 <script
 async
 src="https://maps.googleapis.com/maps/api/js?key={{API_KEY}}&callback=initMap&libraries=places,geometry">
-</script>
-
-<!-- script for the loader -->
-<script>
-  var myVar;
-  
-  function myFunction() {
-    myVar = setTimeout(showPage, 3000);
-  }
-  
-  function showPage() {
-    document.getElementById("loader").style.display = "none";
-    document.getElementById("map").style.display = "block";
-  }
 </script>
 
 {% endblock body%}

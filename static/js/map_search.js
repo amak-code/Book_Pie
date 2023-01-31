@@ -1,4 +1,4 @@
-let map, infoWindow;
+    let map, infoWindow;
 
 const myLocation = new Promise(resolve => {
     if (!navigator.geolocation) {
@@ -10,6 +10,7 @@ const myLocation = new Promise(resolve => {
                 resolve({
                 lat: position.coords.latitude,
                 lng: position.coords.longitude
+                
             }),
             () => resolve(undefined)
         )
@@ -19,7 +20,7 @@ const myLocation = new Promise(resolve => {
 async function initMap()  {
     let pos = await myLocation
     if (!pos) {
-        pos = {
+        const pos = {
             lat: 37.7749, lng: -122.4194
         }
     }
@@ -65,6 +66,9 @@ async function initMap()  {
         service.nearbySearch(request, callback);
 
       });
+
+      document.getElementById("loader").style.display = "none";
+    document.getElementById("map").style.display = "block";
  
 }
 
