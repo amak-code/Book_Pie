@@ -109,8 +109,13 @@ class BookToRead(db.Model):
 
 
 # EXAMPLE DATA ---------------------------------------------------------------
-
+import bcrypt
 def example_data():
+    def hashPw(pw):
+        hash_password = bcrypt.hashpw(pw.encode('utf8'), bcrypt.gensalt())
+        return hash_password.decode('utf8')
+
+
     """Create some sample data for testing."""
 
     User.query.delete()
@@ -121,17 +126,17 @@ def example_data():
     JackT = User(
                 nickname='JackT',
                 email='JackT@test.com',
-                password='test',
+                password=hashPw('test'),
                 )
 
     BevM = User(nickname='BevM',
                 email='BevM@test.com',
-                password='test',)
+                password=hashPw('test'),)
 
     PaulE = User(
                 nickname='PaulE',
                 email='PaulE@test.com',
-                password='test',
+                password=hashPw('test'),
                 )
 
     # Example Books

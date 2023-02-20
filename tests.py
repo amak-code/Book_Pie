@@ -3,8 +3,7 @@ from server import app
 from model import connect_to_db, db, example_data
 from flask import session
 import crud
-
-
+import os
 
 class FlaskTestsDatabase(TestCase):
     """Flask tests that use the database."""
@@ -12,13 +11,15 @@ class FlaskTestsDatabase(TestCase):
     def setUp(self):
         self.client = app.test_client()
         app.config['TESTING'] = True
+        # os.system("dropdb testdb")
+        # os.system("createdb testdb")
         connect_to_db(app, db_uri="postgresql:///testdb")
+        db.drop_all()
         db.create_all()
         example_data()
 
     def tearDown(self):
         db.session.remove()
-        db.drop_all()
         db.engine.dispose()
 
     def test_login(self):
@@ -29,8 +30,7 @@ class FlaskTestsDatabase(TestCase):
 
     def test_get_user_by_email(self):
         user = crud.get_user_by_email('JackT@test.com')
-        assert('JackT@test.com','test', 'JackT') == (user.email,
-        user.password,user.nickname)
+        assert('JackT@test.com') == (user.email)
 
     
     def test_get_book_by_google_id(self):

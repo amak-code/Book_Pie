@@ -5,7 +5,6 @@ from jinja2 import StrictUndefined
 import requests
 import crud
 import random
-import os
 import bcrypt
 
 app = Flask(__name__)
