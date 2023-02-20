@@ -108,6 +108,78 @@ class BookToRead(db.Model):
 
 
 
+# EXAMPLE DATA ---------------------------------------------------------------
+
+def example_data():
+    """Create some sample data for testing."""
+
+    User.query.delete()
+    Book.query.delete()
+    Review.query.delete()
+
+    # Example Users
+    JackT = User(
+                nickname='JackT',
+                email='JackT@test.com',
+                password='test',
+                )
+
+    BevM = User(nickname='BevM',
+                email='BevM@test.com',
+                password='test',)
+
+    PaulE = User(
+                nickname='PaulE',
+                email='PaulE@test.com',
+                password='test',
+                )
+
+    # Example Books
+    book1 = Book(
+        google_book_id = "5CDuO_6LYpgC",
+        title = "Struggling with Iowa's Pride",
+        authors = "Wilson J. Warren",
+        poster_path = "http://books.google.com/books/content?id=5CDuO_6LYpgC&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+        rating = 4,
+        number_of_ratings = 1
+        )
+
+    book2 = Book(
+        google_book_id = "_S5dgR5kPAAC",
+        title = "The Pride of the Confederate Artillery",
+        authors = "Nathaniel Cheairs Hughes",
+        poster_path = "http://books.google.com/books/content?id=_S5dgR5kPAAC&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+        rating = 3,
+        number_of_ratings = 1)
+
+
+    # Example Reviews  
+
+    review1 = Review(
+        text_review = "The book is amazing!!!",
+        google_book_id = "_S5dgR5kPAAC",
+        user_id = 1
+                    )
+
+    review2 = Review(
+        text_review = "The book is good!",
+        google_book_id = "_S5dgR5kPAAC",
+        user_id = 2
+    )
+
+    review3 = Review(
+        text_review = "I recommended this book to my friend",
+        google_book_id = "5CDuO_6LYpgC",
+        user_id = 3)
+
+    db.session.add_all([JackT, BevM, PaulE, book1, book2])
+    db.session.commit()
+    db.session.add_all([review1, review2, review3])
+    db.session.commit()
+
+
+# ----------------------------------------------------------------------------
+
 def connect_to_db(flask_app, db_uri="postgresql:///book_review", echo=True):
     flask_app.config["SQLALCHEMY_DATABASE_URI"] = db_uri
     flask_app.config["SQLALCHEMY_ECHO"] = echo
@@ -125,14 +197,3 @@ if __name__ == "__main__":
 
     connect_to_db(app)
     
-    # Call connect_to_db(app, echo=False) if your program output gets
-    # too annoying; this will tell SQLAlchemy not to print out every
-    # query it executes.
-    # app = Flask(__name__)
-    
-    # db.create_all()
-    # test_user = User(email='test2@test.test', password='test')
-    # db.session.add(test_user)
-    # db.session.commit()
-    
-    # user = User.query.first()
