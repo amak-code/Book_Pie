@@ -4,9 +4,14 @@ from model import connect_to_db, db, example_data
 from flask import session
 import crud
 import os
+import bcrypt
 
-class FlaskTestsDatabase(TestCase):
+class FlaskTests(TestCase):
     """Flask tests that use the database."""
+    # tests for DataBase
+    def hashPw(pw):
+        hash_password = bcrypt.hashpw(pw.encode('utf8'), bcrypt.gensalt())
+        return hash_password.decode('utf8')
 
     def setUp(self):
         self.client = app.test_client()
@@ -22,12 +27,7 @@ class FlaskTestsDatabase(TestCase):
         db.session.remove()
         db.engine.dispose()
 
-    def test_login(self):
-        result = self.client.post("/login",
-                                  data={"email": "JackT@test.com", "password": "test"},
-                                  follow_redirects=True)
-        self.assertIn(b"Welcome back, JackT@test.com!", result.data)
-
+    
     def test_get_user_by_email(self):
         user = crud.get_user_by_email('JackT@test.com')
         assert('JackT@test.com') == (user.email)
@@ -46,6 +46,55 @@ class FlaskTestsDatabase(TestCase):
         rating = crud.get_rating_by_google_id('5CDuO_6LYpgC')
         assert(4) == rating
 
+    # ------------------------------------------------------------------
+    # tests for pages and sign in/up processes
+
+    def test_welcome_page(self):
+        result = self.client.get('/')
+        self.assertIn(b'<h3>Thinking what to read next?</h3>',
+                    result.data)
+
+
+    def test_login(self):
+        result = self.client.post("/login",
+                                  data={"email": "JackT@test.com", "password": "test"},
+                                  follow_redirects=True)
+        
+        self.assertIn(b"Welcome back, JackT@test.com!", result.data)
+
+
+    def test_log_in_page(self):
+        result = self.client.get('/')
+        self.assertEqual(result.status_code, 200)
+        self.assertIn(b'<form action="/login" method="POST">', result.data)
+
+
+    def test_register_user_success(self):
+        # Create a new user with unique email
+        form = {
+            'email': '123@test.com',
+            'password': '123'
+        }
+        
+        response = self.client.post('/users', data=form)
+        self.assertEqual(response.status_code, 302) # Successful redirect
+        self.assertEqual(response.location, 'http://localhost/') # Redirect to home page
+        response = self.client.get(response.location)
+        self.assertIn(b'Account created! Please log in.', response.data) # Success message
+        
+
+
+
+   
+
+   
+
+    
+
+  
+
+
+   
 
 
 # ----------------------------------------------------------------------------
