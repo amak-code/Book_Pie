@@ -4,34 +4,31 @@
 
 ## Overview
 
-- [Setup](#Setup)
-- [TechStack](#TechStack)
+**Main Page**
 
+![](https://github.com/amak-code/Book_Pie/blob/main/static/images/intro-page-book-pie.gif)
 
+**Search Page**
+
+![](https://github.com/amak-code/Book_Pie/blob/main/static/images/search-page-book-pie.gif)
+
+**Map Page**
+
+![](https://github.com/amak-code/Book_Pie/blob/main/static/images/map-page-book-pie.gif)
+
+**Rating Page**
+
+![](https://github.com/amak-code/Book_Pie/blob/main/static/images/rating-page-book-pie.gif)
 
 ## <a name="Setup"></a>Setup
 
 There are a few things that are needed for this application to run:
-
-1. click==8.0.1
-2. Flask==2.0.1
-3. Flask-SQLAlchemy==2.5.1
-4. greenlet==1.1.0
-5. itsdangerous==2.0.1
-6. Jinja2==3.0.1
-7. MarkupSafe==2.0.1
-8. psycopg2-binary==2.9.3
-9. SQLAlchemy==1.4.18
-10. Werkzeug==2.0.1
-11. Flask-DebugToolbar==0.11.0
-12. requests==2.26.0
 
 You can copy [requirements.txt](/requirements.txt) file which has a list of all that libraries. <br>
 You can install them using this command:</br>
 ```
 pip install -r requirements.txt
 ```
-
 
 ## <a name="TechStack"></a>Tech Stack
 - Postgresql
