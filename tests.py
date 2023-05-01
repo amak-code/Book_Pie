@@ -84,7 +84,16 @@ class FlaskTests(TestCase):
         
 
 
-
+    def test_search_results(self):
+        form = {
+            'title':'Paradise',
+            'author':'John'
+        }
+        
+        response = self.client.post('/search', data = form)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'Paradise Lost', response.data)
+        
    
 
    

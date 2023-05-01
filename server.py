@@ -11,7 +11,7 @@ app = Flask(__name__)
 app.secret_key = "dev"
 app.jinja_env.undefined = StrictUndefined
 os.system("source secret.sh")
-API_KEY = os.environ['GOOGLEMAP_KEY']
+# API_KEY = os.environ['GOOGLEMAP_KEY']
 
 LIST_OF_RANDOM_WORDS = ["love", "world", "fashion", "peace", "mindfulness", "sun",
  "modern", "human", "health", "nature", "baby", "detective", "romance", "kid", 
@@ -285,11 +285,11 @@ def get_suggested_books():
 
 # method for rendering Google Map
 
-@app.route("/map")
-def view_map():
-    """Map-related code."""
+# @app.route("/map")
+# def view_map():
+#     """Map-related code."""
 
-    return render_template("map.html", API_KEY=API_KEY)
+#     return render_template("map.html", API_KEY=API_KEY)
 
 
 
