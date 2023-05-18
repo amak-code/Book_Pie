@@ -33,6 +33,7 @@ time.sleep(3)
 card = driver.find_element(By.CSS_SELECTOR, 'div[class="col-xl-2 col-md-3 col-sm-6"]')
 card.click()
 time.sleep(3)
+
 # login_form_text = driver.find_element(By.CLASS_NAME, "text-center")
 # print(f"{login_form_text.text}")
 
